@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>迷途者搜索與追蹤</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/night.css" />
+<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{ --accent:#e8643a; --accent2:#4fc3f7; --success:#81c784; --warn:#ffb74d; }
+.reveal{ font-family:'Segoe UI','Noto Sans TC',sans-serif; }
+.reveal h1,.reveal h2,.reveal h3{ font-family:'Segoe UI','Noto Sans TC',sans-serif; font-weight:700; letter-spacing:-0.02em; }
+.reveal h1{ font-size:2.05em; }
+.reveal h2{ font-size:1.4em; color:var(--accent2); }
+.reveal h3{ font-size:0.9em; color:var(--warn); }
+.reveal .progress{ color:var(--accent); }
+.reveal section{ text-align:left; }
+.reveal p{ line-height:1.5; }
+.lead{ font-size:0.62em; color:#cdd6e0; line-height:1.7; }
+.small{ font-size:0.5em; color:#9fb0c0; }
+.hl{ color:var(--accent); font-weight:700; }
+.hl2{ color:var(--accent2); font-weight:700; }
+.reveal .backgrounds .slide-background-content::after{ content:''; position:absolute; inset:0; background:rgba(7,11,18,0.42); }
+
+/* 章節封面 */
+.chap{ text-align:center; }
+.chap .cn{ font-size:0.5em; letter-spacing:0.25em; color:var(--accent); font-weight:700; }
+.chap h1{ margin:0.2em 0; color:#fff; }
+.chap .cs{ font-size:0.55em; color:#aab6c4; }
+
+/* 封面 */
+.title-slide{ text-align:center; }
+.title-slide .tag{ display:inline-block; background:var(--accent); color:#fff; padding:4px 14px; border-radius:20px; font-size:0.5em; letter-spacing:0.08em; margin-bottom:0.8em; font-weight:600; }
+.title-slide .subtitle{ font-size:0.6em; color:#b9c4d0; margin-top:0.6em; }
+.title-slide .author{ margin-top:1.6em; font-size:0.46em; color:#8794a3; }
+
+/* 卡片格 */
+.cards{ display:grid; gap:14px; margin-top:0.6em; }
+.cards.c2{ grid-template-columns:1fr 1fr; }
+.cards.c3{ grid-template-columns:1fr 1fr 1fr; }
+.cards.c4{ grid-template-columns:1fr 1fr 1fr 1fr; }
+.card{ background:rgba(255,255,255,0.055); border-top:4px solid var(--accent2); border-radius:10px; padding:14px 15px; }
+.card.o{ border-top-color:var(--accent); }
+.card.g{ border-top-color:var(--success); }
+.card.y{ border-top-color:var(--warn); }
+.card .ct{ font-size:0.5em; font-weight:700; color:#fff; margin-bottom:5px; }
+.card .cd{ font-size:0.4em; color:#b7c3cf; line-height:1.55; }
+.card .cn{ display:inline-block; min-width:26px; height:26px; line-height:26px; text-align:center; background:var(--accent); color:#0d1117; border-radius:50%; font-weight:800; font-size:0.42em; margin-bottom:6px; }
+
+/* 步驟清單 */
+.steps{ list-style:none; padding:0; margin:0.5em 0 0; }
+.steps li{ font-size:0.5em; color:#cdd6e0; padding:8px 0 8px 40px; position:relative; border-bottom:1px solid rgba(255,255,255,0.07); line-height:1.5; counter-increment:st; }
+.steps li::before{ content:counter(st); position:absolute; left:0; top:7px; width:26px; height:26px; background:var(--accent2); color:#0d1117; border-radius:50%; font-weight:800; font-size:0.85em; text-align:center; line-height:26px; }
+.steps{ counter-reset:st; }
+
+/* 定義列 */
+.defs{ display:flex; flex-direction:column; gap:9px; margin-top:0.5em; }
+.def{ display:flex; gap:14px; align-items:baseline; background:rgba(255,255,255,0.04); border-left:3px solid var(--accent2); border-radius:8px; padding:9px 13px; }
+.def .dk{ flex:0 0 130px; font-weight:800; color:var(--accent2); font-size:0.5em; }
+.def .dv{ flex:1; font-size:0.44em; color:#c3ced9; line-height:1.5; }
+
+/* 重點框 */
+.note{ background:rgba(79,195,247,0.1); border:1px solid rgba(79,195,247,0.32); border-radius:10px; padding:13px 16px; font-size:0.48em; color:#d7e3ee; line-height:1.65; margin-top:0.6em; }
+.note.o{ background:rgba(232,100,58,0.12); border-color:rgba(232,100,58,0.4); }
+.note.g{ background:rgba(129,199,132,0.12); border-color:rgba(129,199,132,0.4); }
+.note b{ color:#fff; }
+.quote{ background:rgba(255,255,255,0.05); border-left:4px solid var(--accent); border-radius:8px; padding:16px 20px; font-size:0.56em; color:#e2e8ee; font-style:italic; line-height:1.7; margin-top:0.4em; }
+
+/* 表格 */
+.reveal table{ font-size:0.4em; width:100%; border-collapse:collapse; margin-top:0.5em; }
+.reveal table th{ background:#1f3350; color:#fff; padding:7px 9px; text-align:left; font-weight:700; }
+.reveal table td{ padding:6px 9px; border-bottom:1px solid rgba(255,255,255,0.09); color:#c3ced9; vertical-align:top; }
+.reveal table tr:nth-child(even) td{ background:rgba(255,255,255,0.03); }
+
+/* 互動通用 */
+.ui-input{ width:100%; padding:9px 12px; border-radius:8px; border:1px solid rgba(79,195,247,0.3); background:rgba(255,255,255,0.08); color:#fff; font-size:13px; box-sizing:border-box; font-family:inherit; outline:none; }
+.ui-btn{ padding:9px 14px; background:var(--accent2); color:#0d1117; border:none; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit; }
+.ui-btn:disabled{ opacity:0.5; }
+.live-badge{ display:inline-block; background:#ff4757; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.5em; vertical-align:middle; animation:pulse 1.5s infinite; margin-left:8px; }
+.qhead{ font-size:1.05em; margin-bottom:0.4em; color:#fff; }
+@keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.55;} }
+.qa-item{ background:rgba(255,255,255,0.06); border-left:3px solid var(--accent); border-radius:8px; padding:10px 12px; margin-bottom:8px; font-size:14px; display:flex; align-items:center; gap:10px; }
+.qa-text{ flex:1; color:#eee; line-height:1.5; text-align:left; }
+.qa-like{ flex:0 0 auto; background:rgba(232,100,58,0.15); border:1px solid rgba(232,100,58,0.4); color:var(--accent); border-radius:20px; padding:4px 10px; cursor:pointer; font-size:13px; font-family:inherit; white-space:nowrap; }
+
+/* 全域提問牆側邊欄 */
+#qa-sidebar{ position:fixed; top:0; left:0; height:100vh; width:340px; background:linear-gradient(180deg,#141a2e,#0d1117); border-right:1px solid rgba(79,195,247,0.25); box-shadow:6px 0 30px rgba(0,0,0,0.55); transform:translateX(-100%); transition:transform .35s ease; z-index:1000; }
+@media (max-width:380px){ #qa-sidebar{ width:300px; } }
+#qa-sidebar.open{ transform:translateX(0); }
+#qa-sidebar .qa-inner{ display:flex; flex-direction:column; height:100%; padding:26px 20px; box-sizing:border-box; }
+#qa-handle{ position:absolute; right:-46px; top:50%; transform:translateY(-50%); width:46px; padding:18px 0; background:var(--accent); color:#fff; border:none; border-radius:0 12px 12px 0; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:6px; font-family:inherit; box-shadow:3px 0 12px rgba(0,0,0,0.4); }
+#qa-handle .qh-dot{ width:7px; height:7px; border-radius:50%; background:#fff; animation:pulse 1.5s infinite; }
+#qa-overlay{ position:fixed; inset:0; background:rgba(0,0,0,0.45); opacity:0; pointer-events:none; transition:opacity .35s; z-index:999; }
+#qa-overlay.show{ opacity:1; pointer-events:auto; }
+
+/* 手機 */
+body.mobile .reveal .slides > section.present,
+body.mobile .reveal .slides > section.past,
+body.mobile .reveal .slides > section.future{ height:100%; box-sizing:border-box; display:flex; flex-direction:column; justify-content:safe center; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; padding:16px 12px 64px; scrollbar-width:none; }
+body.mobile .reveal .slides > section::-webkit-scrollbar{ display:none; }
+body.mobile .reveal .controls{ right:10px; bottom:10px; }
+body.mobile .reveal .controls .controls-arrow{ width:52px; height:52px; }
+body.mobile .cards.c2,body.mobile .cards.c3,body.mobile .cards.c4{ grid-template-columns:1fr 1fr; }
+body.mobile .def{ flex-direction:column; gap:2px; }
+body.mobile .def .dk{ flex:none; }
+body.mobile .wc-form{ display:flex; gap:8px; align-items:center; }
+body.mobile .wc-form .ui-input{ flex:1 1 auto; min-width:0; font-size:16px; }
+body.mobile .wc-form #wc-btn{ width:auto !important; margin-top:0 !important; flex:0 0 auto; white-space:nowrap; }
+body.mobile #qa-handle{ top:auto; bottom:16px; right:-48px; transform:none; width:48px; height:48px; padding:0; border-radius:50%; justify-content:center; align-items:center; }
+body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ display:none; }
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- 1 封面 -->
+<section data-background-image="images/cover.jpg" data-background-opacity="0.45" data-background-size="cover">
+  <div class="title-slide">
+    <div class="tag">山域搜救教育訓練 · 16 小時</div>
+    <h1>迷途者搜索與追蹤</h1>
+    <h2 style="color:var(--accent); margin-top:0.2em;">Lost Person Search &amp; Sign Tracking</h2>
+    <p class="subtitle">從「跡象」讀到「線索」，把環境中的故事讀出來</p>
+    <p class="author">室內理論 4–6 小時　·　室內後進行戶外實作</p>
+  </div>
+</section>
+
+<!-- 2 破冰文字雲 -->
+<section id="slide-wordcloud" data-background-image="images/interact.jpg" data-background-opacity="0.16" data-background-size="cover">
+  <h2 style="font-size:1.05em; margin-bottom:0.3em;">🧭 破冰：你覺得「迷路的人」會往哪走？</h2>
+  <p class="small" style="margin:0 0 10px;">輸入一個關鍵詞（例：往下坡、找水、繞圈、回頭…），我們一起看大家的直覺</p>
+  <div class="wc-wrap" style="display:grid; grid-template-columns:250px 1fr; gap:14px; height:420px;">
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="wc-form" style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px;">
+        <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px;">輸入你的答案</div>
+        <input id="wc-input" class="ui-input" type="text" placeholder="輸入關鍵詞…" maxlength="20" />
+        <button id="wc-btn" class="ui-btn" style="width:100%; margin-top:8px;">送出 ↵</button>
+      </div>
+      <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px; flex:1; overflow:hidden; display:flex; flex-direction:column;">
+        <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px;">熱門答案 <span class="live-badge">LIVE</span></div>
+        <div id="wc-list" style="font-size:0.34em; overflow-y:auto; flex:1; color:#ccc;"></div>
+        <div style="margin-top:8px; font-size:0.32em; color:#666; border-top:1px solid rgba(255,255,255,0.08); padding-top:6px;">總提交：<span id="wc-total" style="color:var(--accent); font-weight:700;">0</span>　不同答案：<span id="wc-unique" style="color:var(--accent2); font-weight:700;">0</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04); border-radius:12px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.07);">
+      <canvas id="wc-canvas" style="width:100%; height:100%; display:block;"></canvas>
+      <div id="wc-empty" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#444; font-size:0.42em; text-align:center; pointer-events:none; line-height:2;">輸入第一個答案<br>文字雲就會出現 ✨</div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 課程地圖 -->
+<section data-background-image="images/cover.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>課程地圖：六大主題</h2>
+  <div class="cards c3">
+    <div class="card"><div class="ct">① 追蹤的本質</div><div class="cd">四要件、心法、跡象／蹤跡／線索</div></div>
+    <div class="card o"><div class="ct">② 搜索理念·線索意識</div><div class="cd">七大關鍵、術語、線索六類別與壽命</div></div>
+    <div class="card g"><div class="ct">③ 足跡與痕跡判讀</div><div class="cd">量測、觀察法、方向、擾動、新舊</div></div>
+    <div class="card y"><div class="ct">④ 失蹤者行為模式</div><div class="cd">個案分類、尋獲距離、搜索資料</div></div>
+    <div class="card"><div class="ct">⑤ 區域搜索·涵蓋密度·POD</div><div class="cd">被動/主動、掃描寬度→覆蓋率→POD</div></div>
+    <div class="card o"><div class="ct">⑥ 實際練習</div><div class="cd">撲克牌暖身、20 公尺跡象追蹤</div></div>
+  </div>
+  <div class="note">總課程 <b>16 小時</b>：本簡報為 <b>室內理論 4–6 小時</b>（六模組講一輪）；室內課後即進行 <b>戶外實作</b>。左側 🙋 提問牆全程開放。</div>
+</section>
+
+<!-- 4 模組一 章封 -->
+<section data-background-image="images/mod1.jpg" data-background-opacity="0.42" data-background-size="cover">
+  <div class="chap"><div class="cn">MODULE 01</div><h1>追蹤的本質</h1><div class="cs">追蹤不是看腳印，是把環境裡的故事讀出來</div></div>
+</section>
+
+<!-- 5 追蹤四件事 -->
+<section data-background-image="images/mod1.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>追蹤在搜救中＝四件事</h2>
+  <div class="cards c2">
+    <div class="card"><span class="cn">1</span><div class="ct">訪談</div><div class="cd">訪談目擊者與相關人士，建立行為與去向推測</div></div>
+    <div class="card"><span class="cn">2</span><div class="ct">部署</div><div class="cd">運用策略部署追蹤團隊，或與犬、空拍、地面隊協同</div></div>
+    <div class="card"><span class="cn">3</span><div class="ct">找足跡</div><div class="cd">尋找目標的足跡與跡象</div></div>
+    <div class="card"><span class="cn">4</span><div class="ct">跟進</div><div class="cd">沿跡象持續追蹤、把片段連成路徑</div></div>
+  </div>
+</section>
+
+<!-- 6 心法 -->
+<section data-background-image="images/mod1.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>心法：追蹤人人可學</h2>
+  <div class="quote">「一個故事已被印在環境中，我們必須閱讀並理解它。」</div>
+  <p class="lead" style="margin-top:0.6em;">關鍵不是天賦，而是 <span class="hl">學習意願 · 耐心 · 決心 · 持續練習</span>。</p>
+  <div class="note o">時間花在哪裡，成就就在哪裡。追蹤是一門「練出來」的技藝。</div>
+</section>
+
+<!-- 7 觀察起點 -->
+<section data-background-image="images/mod1.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>觀察的起點：找出「與背景不同」</h2>
+  <p class="lead">人只要經過，就會留下東西——腳印、被破壞的痕跡、氣味。這些偏離自然狀態的改變，統稱 <span class="hl2">擾動</span>。</p>
+  <div class="cards c2" style="margin-top:0.5em;">
+    <div class="card"><div class="ct">最容易發現</div><div class="cd">不同於背景的遺落物：背包、水壺、垃圾</div></div>
+    <div class="card o"><div class="ct">進一步</div><div class="cd">被走過而破壞的痕跡：折枝、破裂的葉子、壓倒的草</div></div>
+  </div>
+</section>
+
+<!-- 8 三名詞 -->
+<section data-background-image="images/mod1.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>三核心名詞：跡象 → 蹤跡 → 線索</h2>
+  <div class="defs">
+    <div class="def fragment"><div class="dk">跡象 Sign</div><div class="dv">單一個「不同於當下背景」的事件（一處折枝、一個被踩倒的草叢）。<b style="color:#8ea2b5">＝最基本的單位</b></div></div>
+    <div class="def fragment"><div class="dk">蹤跡 Track</div><div class="dv">一個跡象與下一個跡象具有相同關聯性，串成方向或路徑。<b style="color:#8ea2b5">＝跡象連成線</b></div></div>
+    <div class="def fragment" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">線索 Clue</div><div class="dv">當蹤跡能與「這一名迷途者」產生關聯時，跡象就升級為線索。<b style="color:#8ea2b5">＝與個案掛勾</b></div></div>
+  </div>
+  <div class="note fragment"><b>Print（腳印）</b>：一種「正面訊號（positive sign）」，能明確告訴你這道足跡是人類還是動物留下的。｜<b>難點</b>：把「環境擾動」讀成「跟這個人有關」，且跡象會隨時間消失。</div>
+</section>
+
+<!-- 9 模組二 章封 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.42" data-background-size="cover">
+  <div class="chap"><div class="cn">MODULE 02</div><h1>搜索理念 · 核心觀念 · 線索意識</h1><div class="cs">搜救找的不是「人」，是「線索」</div></div>
+</section>
+
+<!-- 10 七大關鍵 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>搜索管理七大關鍵</h2>
+  <div class="cards c2" style="gap:10px;">
+    <div class="card"><div class="ct">1 · 搜索是緊急狀況</div><div class="cd">時間是敵人</div></div>
+    <div class="card"><div class="ct">2 · 搜索是經典懸疑</div><div class="cd">有線索，要解謎</div></div>
+    <div class="card o"><div class="ct">3 · 尋找線索</div><div class="cd">線索比人多</div></div>
+    <div class="card o"><div class="ct">4 · 專注找失蹤個案</div><div class="cd">別分心於雜務</div></div>
+    <div class="card g"><div class="ct">5 · 確保指揮統一</div><div class="cd">一個指揮鏈</div></div>
+    <div class="card g"><div class="ct">6 · 掌握是否離開範圍</div><div class="cd">限縮/收容是關鍵</div></div>
+    <div class="card y" style="grid-column:1 / -1;"><div class="ct">7 · 地毯式只當最後手段</div><div class="cd">耗人力、會破壞線索、效率低</div></div>
+  </div>
+</section>
+
+<!-- 11 三觀念翻轉 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>三個必須翻轉的觀念</h2>
+  <div class="defs">
+    <div class="def"><div class="dk">緊急狀況</div><div class="dv">須在 72 小時內找到；越久移動範圍越大、跡象越易消失、傷病惡化。24h 內尋獲比例接近 80%。</div></div>
+    <div class="def"><div class="dk">經典懸疑</div><div class="dv">像推理，手上有線索，要拼成答案。</div></div>
+    <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">找線索非找人</div><div class="dv">線索永遠比個案多；有時一條線索就足以鎖定位置。</div></div>
+  </div>
+</section>
+
+<!-- 12 基本術語 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>先搞懂：基本搜救術語</h2>
+  <table>
+    <tr><th>縮寫</th><th>全名</th><th>意義</th></tr>
+    <tr><td class="hl2">PLS</td><td>Point Last Seen</td><td>最後目擊點：最後一次「被人看到」的位置</td></tr>
+    <tr><td class="hl2">LKP</td><td>Last Known Point</td><td>最後已知點：最後一個可確認的位置證據（通聯、足跡）</td></tr>
+    <tr><td class="hl2">IPP</td><td>Initial Planning Point</td><td>初始規劃點：展開搜索的起算點，常設在第一個 LKP/PLS</td></tr>
+    <tr><td class="hl">POA</td><td>Probability of Area</td><td>區域機率：個案在某區塊的機率（各區加總 100%）</td></tr>
+    <tr><td class="hl">POD</td><td>Probability of Detection</td><td>偵測機率：搜索該區時「能發現」的機率</td></tr>
+    <tr><td class="hl">POS</td><td>Probability of Success</td><td>成功機率＝ POA × POD</td></tr>
+  </table>
+</section>
+
+<!-- 13 線索意識 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>線索意識</h2>
+  <p class="lead">所有搜索者對線索應具備的警覺程度。搜救「找線索而非找個案」，因為線索數量遠多於人本身。</p>
+  <div class="note g" style="font-size:0.55em;"><b>關鍵觀念：</b>夜間搜尋也能帶來線索；而且——「<span class="hl">沒有任何線索，本身就等於一個線索</span>」（代表個案可能沒往這裡走，可據以排除區域）。</div>
+</section>
+
+<!-- 14 線索六類別 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>線索的六大類別</h2>
+  <div class="cards c3" style="gap:10px;">
+    <div class="card"><div class="ct">物理 Physical</div><div class="cd">背包、水壺、登山杖、衣物</div></div>
+    <div class="card"><div class="ct">紀錄 Recorded</div><div class="cd">文件、照片、GPS 軌跡、通聯</div></div>
+    <div class="card o"><div class="ct">證詞 Testimonial</div><div class="cd">他人的目擊陳述</div></div>
+    <div class="card o"><div class="ct">分析 Analytical</div><div class="cd">由已知事實推導的推論</div></div>
+    <div class="card g"><div class="ct">感官 Sensory</div><div class="cd">聞到、聽到（氣味、呼救聲）</div></div>
+    <div class="card g"><div class="ct">可能 Probable</div><div class="cd">依行為模式推估「很可能出現」</div></div>
+  </div>
+</section>
+
+<!-- 15 線索壽命 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>線索的壽命：會消失</h2>
+  <div class="cards c4" style="gap:9px;">
+    <div class="card"><div class="ct">風</div><div class="cd">移動/遮蔽線索、掩蓋呼救聲</div></div>
+    <div class="card"><div class="ct">雨</div><div class="cd">淹沒/摧毀足跡、溶解線索</div></div>
+    <div class="card"><div class="ct">霜</div><div class="cd">清晨助找、也會破壞</div></div>
+    <div class="card"><div class="ct">雪</div><div class="cd">突顯足跡卻覆蓋線索</div></div>
+    <div class="card o"><div class="ct">熱</div><div class="cd">融化線索、使足跡乾燥</div></div>
+    <div class="card o"><div class="ct">時間</div><div class="cd">分解部分線索</div></div>
+    <div class="card y"><div class="ct">野生動物</div><div class="cd">攜帶、掩埋或吃掉</div></div>
+    <div class="card y"><div class="ct">其他人</div><div class="cd">誤把線索當垃圾撿走</div></div>
+  </div>
+  <div class="note">判讀一定要把 <b>天氣與時間</b> 一起納入——同一個跡象，昨天和今天代表的意義不同。</div>
+</section>
+
+<!-- 16 線索保存 -->
+<section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>線索保存 SOP（發現後立即）</h2>
+  <ul class="steps">
+    <li>立即 <b>標記</b>、<b>拍照</b>記錄位置、記 <b>GPS 座標</b>、寫入線索日誌</li>
+    <li>減少干擾：限制人流、設周邊管制、保護線索不受風雨破壞</li>
+    <li>必要時「視為犯罪現場」：移動任何東西前先記錄拍照，維護保管鏈</li>
+  </ul>
+  <div class="note">線索定向：把線索直接與失聯個案連結；線索組裝：依經驗、活動、個案資訊推估「他可能留下哪些線索、會出現在哪」。</div>
+</section>
+
+<!-- 17 模組三 章封 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.42" data-background-size="cover">
+  <div class="chap"><div class="cn">MODULE 03</div><h1>足跡與痕跡判讀實務</h1><div class="cs">怎麼看 · 怎麼判 · 怎麼記（本課技術核心）</div></div>
+</section>
+
+<!-- 18 量測 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>量測：諸元 + 鞋印細部</h2>
+  <table>
+    <tr><th>量測項目</th><th>說明</th></tr>
+    <tr><td class="hl2">步寬 Trail Width</td><td>左右兩側腳印最外緣的距離；反映體型與行走姿態</td></tr>
+    <tr><td class="hl2">步幅 Stride</td><td>固定用「腳跟到腳跟」測量；反映身高、步態與速度（快跑拉長）</td></tr>
+    <tr><td class="hl">鞋印細部（五項）</td><td>腳掌前後長、前腳掌寬、足弓寬、腳跟寬、腳跟長</td></tr>
+    <tr><td class="hl">最大特徵</td><td>鞋底花紋、缺角、磨損、特殊紋路——辨識同一人最可靠的依據</td></tr>
+  </table>
+  <div class="note">現場多半只看到鞋印一小角落，所以「<b>記錄最大特徵</b>」比量到完整尺寸更關鍵。</div>
+</section>
+
+<!-- 19 觀察法 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>觀察法與光線運用</h2>
+  <ul class="steps">
+    <li><b>伏地側面觀察法</b>：臉貼近地面側看，利用光影、灰塵與乾淨處、反光與潮濕的差異</li>
+    <li><b>時機</b>：清晨與黃昏最佳——低角度光讓陷入地面的腳印產生陰影</li>
+    <li><b>光源</b>：面向陽光找；手電筒降低角度、改變亮度（頭燈正上方常看不到；過亮反而失對比）</li>
+    <li><b>換角度</b>：方向錯了就看不到；找不到時換角度、換人、拉遠製造對比</li>
+  </ul>
+</section>
+
+<!-- 20 8視覺要素 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>尋找目標的 8 個視覺要素</h2>
+  <div class="cards c4" style="gap:10px;">
+    <div class="card"><div class="ct">姿勢</div></div>
+    <div class="card"><div class="ct">形狀</div></div>
+    <div class="card"><div class="ct">陰影</div></div>
+    <div class="card"><div class="ct">色調</div></div>
+    <div class="card o"><div class="ct">顏色</div></div>
+    <div class="card o"><div class="ct">反光</div></div>
+    <div class="card o"><div class="ct">移動</div></div>
+    <div class="card o"><div class="ct">對比</div></div>
+  </div>
+  <div class="note">望遠鏡遠距觀察同樣適用這 8 要素。</div>
+</section>
+
+<!-- 21 方向判讀 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>行進方向判讀</h2>
+  <table>
+    <tr><th>觀察點</th><th>判讀方式</th></tr>
+    <tr><td class="hl2">前進 vs 後退</td><td>向前：腳跟明顯、步寬較寬；倒退：腳尖明顯、步寬較窄（需平衡）</td></tr>
+    <tr><td class="hl2">速度</td><td>小跑步腳印較深；快跑只有腳尖著地</td></tr>
+    <tr><td class="hl2">背負重物</td><td>步幅變小、腳掌外開朝前、單側較重</td></tr>
+    <tr><td class="hl2">凸岩／土質</td><td>踩後泥土出現空隙的一側＝離開方向；被推擠隆起側＝來向</td></tr>
+    <tr><td class="hl2">水滴痕</td><td>水滴落地形狀隨移動改變方向</td></tr>
+  </table>
+</section>
+
+<!-- 22 上下坡拉植物 ★ -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>★ 植被傾倒與「上下陡坡拉植物」</h2>
+  <div class="defs">
+    <div class="def"><div class="dk">植物傾倒</div><div class="dv">人踩過或撥過的植物朝行進方向傾倒——沿一連串壓倒的草莖讀出前進向。</div></div>
+    <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">上陡坡</div><div class="dv">伸手抓拉植物借力，植物與根被往「下坡（後方）」拉扯鬆動 → 抓握點與被扯方向指向「來向」，人是往上走。</div></div>
+    <div class="def" style="border-left-color:var(--warn)"><div class="dk" style="color:var(--warn)">下陡坡</div><div class="dv">重心向前、常抓植物減速，植物多被往「前下方」壓折；配合腳跟深陷、下滑刮痕 → 人往下走。</div></div>
+  </div>
+  <div class="note o"><b>交叉驗證：</b>陡坡段同時看「腳印深淺與滑痕」＋「植物被拉/被壓方向」，兩者一致才下結論。</div>
+</section>
+
+<!-- 23 不自然擾動 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>不自然擾動的判讀</h2>
+  <div class="cards c2" style="gap:10px;">
+    <div class="card"><div class="ct">植物瘀傷</div><div class="cd">葉片被踩後變色，是新鮮踩踏的訊號，會隨時間變淡</div></div>
+    <div class="card o"><div class="ct">斷枝能否拼合</div><div class="cd">新折斷可拼回、切面新鮮；舊斷裂對不回、切面乾枯 → 判新舊與方向</div></div>
+    <div class="card g"><div class="ct">不自然交疊</div><div class="cd">自然植物不會呈特定角度壓折交疊，出現＝擾動</div></div>
+    <div class="card y"><div class="ct">葉面破壞成直線</div><div class="cd">人踩常連成一條有方向的直線，異於自然散亂</div></div>
+    <div class="card" style="grid-column:1/-1; border-top-color:var(--accent2)"><div class="ct">鞋子帶出的痕跡</div><div class="cd">鞋底泥抹在石頭上、卡住小石子刮過大石的刮痕，都是通過證據</div></div>
+  </div>
+</section>
+
+<!-- 24 痕跡新舊 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>痕跡新舊與老化判讀</h2>
+  <ul class="steps" style="counter-reset:st;">
+    <li>腳印深淺影響順序：<b>土的軟硬 &gt; 踩踏力量 &gt; 體重</b>（別一看深就說重）</li>
+    <li>葉片瘀傷時間梯度：當下／2 天／7 天程度不同，可估經過時間</li>
+    <li>腳印相互壓疊：壓在最上、最深者為最新</li>
+    <li>蜘蛛網：新網偏黃、舊網偏白；昆蟲巢小土堆用「雨前/雨後被踩」判時序</li>
+    <li>露水痕：人走過該處露水就消失 → 判斷「剛剛才經過」</li>
+  </ul>
+</section>
+
+<!-- 25 紀錄保存 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>紀錄與保存</h2>
+  <div class="cards c3" style="gap:10px;">
+    <div class="card"><div class="ct">追蹤棒</div><div class="cd">登山杖/木棍綁橡皮筋做固定尺寸量測；量腳跟到腳跟找出另一腳</div></div>
+    <div class="card o"><div class="ct">手繪腳印小卡</div><div class="cd">畫得越詳細越好：花紋、鞋長、掌寬、跟寬、最大特徵。手繪比拍照細膩</div></div>
+    <div class="card g"><div class="ct">足跡保存</div><div class="cd">鬆軟地面腳印可用髮膠固定（勿正對噴）；與足跡垂直方向接近</div></div>
+  </div>
+</section>
+
+<!-- 26 心法 -->
+<section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>PLS/LKP 保護與判讀心法</h2>
+  <ul class="steps" style="counter-reset:st;">
+    <li>靠近 PLS/LKP 時盡量不破壞證據：選不易留痕處走（如踩在石頭上）</li>
+    <li>自製足跡驗證：自己踩一個確認地表是否易留痕（插冰棒棍標記區別自製）</li>
+  </ul>
+  <div class="note o"><b>心態提醒：</b>找尋跡象時不要「腦補」預設劇情，那會影響觀察方向。應把區域切成一塊一塊、<b>就事實分析，不憑猜想拼湊</b>。</div>
+</section>
+
+<!-- 27 模組四 章封 -->
+<section data-background-image="images/mod4.jpg" data-background-opacity="0.42" data-background-size="cover">
+  <div class="chap"><div class="cn">MODULE 04</div><h1>失蹤者行為模式</h1><div class="cs">懂行為，才知道去哪找、找什麼</div></div>
+</section>
+
+<!-- 28 為何懂行為 -->
+<section data-background-image="images/mod4.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>為何要懂行為模式</h2>
+  <div class="cards c3" style="gap:10px;">
+    <div class="card"><div class="ct">找什麼線索</div></div>
+    <div class="card o"><div class="ct">搜索難度多高</div></div>
+    <div class="card g"><div class="ct">哪些戰術最有效</div></div>
+  </div>
+  <div class="note">受傷者通常仍在步道上、且多走近路；大人與小孩行為不同。<b>沒有這些資料，我們只會「找一個人、任何人」。</b></div>
+  <p class="small" style="margin-top:0.5em;">初步反應：恐懼？恐慌？尷尬？緊急感？罪惡感？——不同情緒導向不同移動與求救行為。</p>
+</section>
+
+<!-- 29 投票 -->
+<section id="slide-poll" data-background-image="images/mod4.jpg" data-background-opacity="0.16" data-background-size="cover">
+  <h2>🗳 投票：一位失智長者走失，最可能往哪？</h2>
+  <div id="poll-options" style="display:flex; flex-direction:column; gap:12px; margin-top:0.6em; max-width:760px;"></div>
+  <div style="font-size:0.38em; color:#8a97a5; text-align:left; margin-top:0.7em; max-width:760px;">已投票：<span id="poll-total">0</span> 人（可重複點改票）　·　投完下一頁看行為統計</div>
+</section>
+
+<!-- 30 各族群 -->
+<section data-background-image="images/mod4.jpg" data-background-opacity="0.13" data-background-size="cover">
+  <h2>各族群行為與尋獲距離（含台灣）</h2>
+  <table style="font-size:0.36em;">
+    <tr><th>對象</th><th>尋獲距離</th><th>行為特徵</th><th>搜索重點</th></tr>
+    <tr><td class="hl">登山客（台灣）</td><td>郊山 50%≈619m｜中級山 1.1–1.4km</td><td>迷路往下找水→常受困溪谷；有經驗者上切稜線求訊號</td><td>路徑左右 50m 內 POA 最高；溪谷、斷崖崩塌地</td></tr>
+    <tr><td class="hl">健行者</td><td>25%≤1.6km｜50%≤3.2km</td><td>模糊點迷途、移動較遠；夜或受傷找遮蔽</td><td>道路小徑、森林邊緣、高地瞭望處</td></tr>
+    <tr><td class="hl">失智長者</td><td>25%≤980m｜50%≤1.95km</td><td>99% 無回應；跟蹤/回家行為；不會呼叫</td><td>路邊、道路 30m 內、排水道、住所醫院</td></tr>
+    <tr><td class="hl">兒童 1–6</td><td>25%≤650m｜50%≤1.3–2.0km</td><td>無方向感、漫遊；不回應哨音</td><td>常在一處躺下；跟隨動物深入灌叢</td></tr>
+    <tr><td class="hl">獵人</td><td>25%≤2.1km｜50%≤4.9km</td><td>專注獵物忽略方位；會鳴槍回應</td><td>林道、溪流河岸、林地邊緣</td></tr>
+    <tr><td class="hl">抑鬱/輕生</td><td>25%≤800m｜50%≤2.0km</td><td>少長途、少回應甚至躲避；死亡率高</td><td>風景高處、常造訪地；<b>務必往上看防上吊</b></td></tr>
+  </table>
+</section>
+
+<!-- 31 尋獲距離 chart -->
+<section id="slide-dist" data-background-image="images/mod4.jpg" data-background-opacity="0.13" data-background-size="cover">
+  <div class="qhead">📊 各族群「50% 尋獲距離」比較</div>
+  <p class="small" style="margin:0 0 6px;">滑鼠移到長條看數值（單位：公里）</p>
+  <div style="max-width:900px; height:360px; margin:0 auto;"><canvas id="dist-canvas"></canvas></div>
+  <div class="note g" style="font-size:0.5em;"><b>台灣在地重點：</b>約 <span class="hl">80% 的山域迷途案件在距 IPP 一公里內</span>尋獲——與「LKP 1 公里起手式」呼應，可作初期熱區第一圈。</div>
+</section>
+
+<!-- 32 搜索資料清單 -->
+<section data-background-image="images/mod4.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>搜索資料清單（越詳細，追蹤越有依據）</h2>
+  <div class="cards c3" style="gap:10px;">
+    <div class="card"><div class="ct">個案資訊</div><div class="cd">姓名、年齡、身高、體重、體格</div></div>
+    <div class="card o"><div class="ct">服飾</div><div class="cd">上衣、褲子、顏色、鞋類（鞋底花紋！）</div></div>
+    <div class="card g"><div class="ct">習慣/個性</div><div class="cd">抽菸、咀嚼、酒精、藥物</div></div>
+    <div class="card y"><div class="ct">健康/狀況</div><div class="cd">體能、殘障、用藥、視力</div></div>
+    <div class="card" style="grid-column:span 2; border-top-color:var(--accent2)"><div class="ct">裝備</div><div class="cd">背包、睡袋、生火工具、燈、刀、相機、證件、交通工具（含款式/顏色/尺寸/品牌）</div></div>
+  </div>
+</section>
+
+<!-- 33 模組五 章封 -->
+<section data-background-image="images/mod5.jpg" data-background-opacity="0.42" data-background-size="cover">
+  <div class="chap"><div class="cn">MODULE 05</div><h1>區域搜索 · 涵蓋密度 · POD</h1><div class="cs">把「找到機率」算出來</div></div>
+</section>
+
+<!-- 34 被動vs主動 -->
+<section data-background-image="images/mod5.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>兩大類戰術：被動 vs 主動</h2>
+  <div class="cards c2">
+    <div class="card"><div class="ct">被動（Passive）＝布網·守點·蒐情報</div><div class="cd">吸引（燈光聲音煙霧）、限縮/收容（道路步道口設關卡）、截取徵象（邊界找穿越痕跡）、調查訪談。省人力、常最先做</div></div>
+    <div class="card o"><div class="ct">主動（Active）＝派人進去搜</div><div class="cd">依「速度換徹底度」分三級 →</div></div>
+  </div>
+  <div class="defs" style="margin-top:0.5em;">
+    <div class="def"><div class="dk">快速 Hasty</div><div class="dv">少數人沿高機率路線（步道/稜線/水系）快掃，先排查最可能處</div></div>
+    <div class="def"><div class="dk">高效 Efficient</div><div class="dv">一列人拉開間距邊走邊找線索，兼顧速度與覆蓋</div></div>
+    <div class="def" style="border-left-color:var(--warn)"><div class="dk" style="color:var(--warn)">徹底 Thorough</div><div class="dv">大量人力密集地毯式，最完整但最慢、最耗資源、最會破壞線索 → 最後手段</div></div>
+  </div>
+</section>
+
+<!-- 35 掃描寬度 chart -->
+<section id="slide-sweep" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
+  <div class="qhead">📏 涵蓋密度三步驟｜① 有效掃描寬度 W 隨地形變化</div>
+  <p class="small" style="margin:0 0 4px;">① 查 W（看地形）→ ② 覆蓋率 C = W ÷ 間距 → ③ POD = 1 − e^(−C)</p>
+  <div style="max-width:900px; height:330px; margin:0 auto;"><canvas id="sweep-canvas"></canvas></div>
+  <div class="note">地形越密（W 越小），就得排得越近才能維持相同 POD。</div>
+</section>
+
+<!-- 36 POD chart -->
+<section id="slide-pod" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
+  <div class="qhead">📈 ③ 覆蓋率 C → POD = 1 − e^(−C)</div>
+  <div style="max-width:820px; height:340px; margin:0 auto;"><canvas id="pod-canvas"></canvas></div>
+  <div class="note o" style="font-size:0.5em;"><b>實例：</b>中級山闊葉林 W≈15m，間距 30m → C=0.5 → POD≈39%；想拉到 63%，把間距縮成 15m（C=1.0）。多次搜尋、GPS 軌跡記錄可提高覆蓋。</div>
+</section>
+
+<!-- 37 模組六 章封 -->
+<section data-background-image="images/mod6.jpg" data-background-opacity="0.42" data-background-size="cover">
+  <div class="chap"><div class="cn">MODULE 06</div><h1>實際練習</h1><div class="cs">先練「看得到」，再練「看得懂」→ 室內後進行戶外</div></div>
+</section>
+
+<!-- 38 撲克牌暖身 -->
+<section data-background-image="images/mod6.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>暖身：有效掃描寬度 × 找撲克牌</h2>
+  <ul class="steps" style="counter-reset:st;">
+    <li><b>布置</b>：草地/落葉地面隨機散佈數十張撲克牌（部分明顯、部分半掩）</li>
+    <li><b>執行</b>：搜救員列隊、等間距、同速通過，只找牌不撿；記錄各人「剛好還看得到」的最遠橫向距離</li>
+    <li><b>量測</b>：各人最遠可見距離取區間值 ＝ 這個地形的有效掃描寬度 W</li>
+    <li><b>延伸</b>：換不同間距再走、數找到幾張，體會「間距越密 → C 越高 → 找到越多」</li>
+  </ul>
+  <div class="note">撲克牌大小固定、顏色鮮明，適合當「標準線索」——先發現「站太開會漏牌」，自然帶出覆蓋率與 POD。</div>
+</section>
+
+<!-- 39 20m追蹤 -->
+<section data-background-image="images/mod6.jpg" data-background-opacity="0.14" data-background-size="cover">
+  <h2>跡象追蹤演練（短距離 20 公尺）</h2>
+  <div class="cards c2">
+    <div class="card"><div class="ct">流程</div><div class="cd">先行者先以約 20 公尺短距離製造各種跡象 → 回到隊伍 → 全隊一起從起點沿線追蹤</div></div>
+    <div class="card o"><div class="ct">先行者製造</div><div class="cd">腳印組（含倒退/小跑/背負）、壓草瘀傷、折枝、上下坡拉植物、石上鞋泥、露水痕、中途錯誤折返</div></div>
+  </div>
+  <ul class="steps" style="counter-reset:st; margin-top:0.5em;">
+    <li>保存並確認起點、登記時間；伏地側面＋光影確認第一組足跡方向與量測</li>
+    <li>二分法排除方向：找到下一跡象＝確立蹤跡，找不到＝沒往那走；逐一串成蹤跡、標記拍照</li>
+    <li>陡坡交叉驗證、折返點用壓疊/瘀傷新舊判最新方向</li>
+  </ul>
+  <div class="note g" style="font-size:0.48em;"><b>為何先行者做完就歸隊：</b>追蹤全靠「讀跡象」而非跟人；講評時先行者當場對照、說明每個跡象。</div>
+</section>
+
+<!-- 40 收束 -->
+<section data-background-image="images/ending.jpg" data-background-opacity="0.5" data-background-size="cover">
+  <div class="chap">
+    <h1 style="color:var(--accent2);">看得到 · 看得懂 · 讀成線索</h1>
+    <p class="lead" style="max-width:760px; margin:0.6em auto 0;">跡象 → 蹤跡 → 線索。搜救找的不是「人」，是他留下的故事。<br>接下來，我們到戶外，把今天的判讀方法真正踩一遍。</p>
+    <p class="small" style="margin-top:1.2em;">左側 🙋 提問牆整場開放，隨時把問題丟上來。</p>
+  </div>
+</section>
+
+</div></div>
+
+<!-- 全域提問牆側邊欄 -->
+<div id="qa-overlay"></div>
+<aside id="qa-sidebar" data-prevent-swipe>
+  <button id="qa-handle" aria-label="開關提問牆"><span style="font-size:19px;">🙋</span><span style="writing-mode:vertical-rl; letter-spacing:3px; font-weight:700; font-size:14px;">提問牆</span><span class="qh-dot"></span></button>
+  <div class="qa-inner">
+    <div style="font-size:19px; font-weight:700; color:var(--accent2); margin-bottom:16px;">🙋 匿名提問牆 <span class="live-badge">LIVE</span></div>
+    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+      <input id="qa-input" class="ui-input" type="text" placeholder="輸入問題，按 Enter…" maxlength="80" />
+      <button id="qa-btn" class="ui-btn">送出提問</button>
+    </div>
+    <div id="qa-list" style="flex:1; overflow-y:auto; padding-right:4px;"></div>
+  </div>
+</aside>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+function deckSize(){
+  const portrait = window.matchMedia('(orientation: portrait)').matches;
+  const w = window.innerWidth, h = window.innerHeight;
+  if(portrait && w < 760){
+    const vh = Math.max(860, Math.round(460 * h / Math.max(1,w)));
+    return { width:460, height:vh, margin:0.01, mobile:true, center:false, touch:false };
+  }
+  return { width:1280, height:760, margin:0.04, mobile:false, center:true, touch:true };
+}
+function applyResponsive(){
+  const n = deckSize();
+  document.body.classList.toggle('mobile', n.mobile);
+  Reveal.configure({ width:n.width, height:n.height, margin:n.margin, center:n.center, touch:n.touch, view:null });
+  Reveal.layout();
+  setTimeout(()=>{ const id=Reveal.getCurrentSlide&&Reveal.getCurrentSlide()?.id;
+    if(id==='slide-wordcloud') window.drawWordCloud&&window.drawWordCloud();
+    if(id==='slide-dist') window.initDist&&window.initDist();
+    if(id==='slide-sweep') window.initSweep&&window.initSweep();
+    if(id==='slide-pod') window.initPod&&window.initPod(); }, 250);
+}
+const ds = deckSize();
+document.body.classList.toggle('mobile', ds.mobile);
+Reveal.initialize({
+  hash:true, transition:'slide', backgroundTransition:'fade',
+  center:ds.center, touch:ds.touch, progress:true, controls:true, slideNumber:'c/t',
+  width:ds.width, height:ds.height, margin:ds.margin, minScale:0.2, maxScale:1.6,
+  view:null, scrollActivationWidth:null, plugins:[]
+});
+Reveal.on('ready', applyResponsive);
+window.addEventListener('load', applyResponsive);
+let _rzT; window.addEventListener('resize', ()=>{ clearTimeout(_rzT); _rzT=setTimeout(applyResponsive,180); });
+window.addEventListener('orientationchange', ()=>setTimeout(applyResponsive,250));
+Reveal.on('slidechanged', e=>{ if(e.currentSlide) e.currentSlide.scrollTop=0;
+  const id=e.currentSlide?.id;
+  if(id==='slide-wordcloud') setTimeout(()=>window.drawWordCloud&&window.drawWordCloud(),150);
+  if(id==='slide-dist') setTimeout(()=>window.initDist&&window.initDist(),150);
+  if(id==='slide-sweep') setTimeout(()=>window.initSweep&&window.initSweep(),150);
+  if(id==='slide-pod') setTimeout(()=>window.initPod&&window.initPod(),150);
+});
+
+/* === Chart.js（三張，切到該頁才建立） === */
+const CH={ grid:'rgba(255,255,255,0.08)', tick:'#aab6c4' };
+let _dist,_sweep,_pod;
+window.initDist=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('dist-canvas'); if(!c)return;
+  if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initDist,250); return; } if(_dist){_dist.resize();return;}
+  _dist=new Chart(c,{ type:'bar', data:{ labels:['登山客(台灣)','兒童1-6','失智長者','抑鬱/輕生','健行者','獵人','釣客'],
+    datasets:[{ label:'50% 尋獲距離 (km)', data:[1.2,1.6,1.95,2.0,3.2,4.9,9.8],
+    backgroundColor:['#e8643a','#ffb74d','#ce93d8','#f48fb1','#4fc3f7','#81c784','#80deea'], borderRadius:6 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{color:'#ccc'}}},
+      scales:{ y:{ticks:{color:CH.tick,callback:v=>v+' km'},grid:{color:CH.grid}}, x:{ticks:{color:'#dde5ee',font:{size:11}},grid:{display:false}} } } });
+};
+window.initSweep=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('sweep-canvas'); if(!c)return;
+  if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initSweep,250); return; } if(_sweep){_sweep.resize();return;}
+  _sweep=new Chart(c,{ type:'bar', data:{ labels:['高山箭竹草原','高山岩屑地/寒原','二葉松/鐵杉疏林','中級山闊葉混合林','溪谷巨石區','極密箭竹/高芒草'],
+    datasets:[{ label:'有效掃描寬度 W (m)', data:[50,100,40,15,12,3.5],
+    backgroundColor:['#81c784','#4fc3f7','#a3e635','#ffb74d','#f59e0b','#dc2626'], borderRadius:6 }] },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:x=>'W ≈ '+x.parsed.x+' m'}}},
+      scales:{ x:{min:0,max:110,ticks:{color:CH.tick,callback:v=>v+'m'},grid:{color:CH.grid}}, y:{ticks:{color:'#dde5ee',font:{size:11}},grid:{display:false}} } } });
+};
+window.initPod=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('pod-canvas'); if(!c)return;
+  if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initPod,250); return; } if(_pod){_pod.resize();return;}
+  _pod=new Chart(c,{ type:'line', data:{ labels:['0','0.5','1.0','1.5','2.0','2.5','3.0'],
+    datasets:[{ label:'POD = 1 − e^(−C)', data:[0,39,63,78,86,92,95], borderColor:'#e8643a',
+    backgroundColor:'rgba(232,100,58,0.15)', borderWidth:3, fill:true, tension:0.35, pointRadius:5, pointBackgroundColor:'#e8643a' }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{color:'#ccc'}},tooltip:{callbacks:{label:x=>'C='+x.label+' → POD≈'+x.parsed.y+'%'}}},
+      scales:{ y:{min:0,max:100,title:{display:true,text:'POD (%)',color:'#8a97a5'},ticks:{color:CH.tick,callback:v=>v+'%'},grid:{color:CH.grid}},
+        x:{title:{display:true,text:'覆蓋率 Coverage (C)',color:'#8a97a5'},ticks:{color:'#dde5ee'},grid:{color:CH.grid}} } } });
+};
+</script>
+
+<!-- Firebase 互動（單一 module） -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp, query, orderBy, doc, setDoc, updateDoc, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app-check.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBPaIDGb3RaYhxYrXVE_6YndLUi2jLv1R4",
+  authDomain: "html-slide-db.firebaseapp.com",
+  projectId: "html-slide-db",
+  storageBucket: "html-slide-db.firebasestorage.app",
+  messagingSenderId: "1045858073731",
+  appId: "1:1045858073731:web:8d70945fa081f49929afb6"
+};
+const app = initializeApp(firebaseConfig);
+initializeAppCheck(app, { provider: new ReCaptchaV3Provider('6LevoHstAAAAALRLwnA0DSLiXAK8wER_LEM-eP9b'), isTokenAutoRefreshEnabled:true });
+const fdb = getFirestore(app);
+const auth = getAuth(app);
+try { await signInAnonymously(auth); } catch(e){ console.error('匿名登入失敗', e); }
+const SLUG = 'lpt2026';
+const COLORS = ['#4fc3f7','#e8643a','#ffb74d','#81c784','#ce93d8','#80deea','#f48fb1'];
+
+/* --- 文字雲 --- */
+const wordsRef = collection(fdb, SLUG + '_wordcloud');
+let wcData = [];
+window.wcSubmit = async function(){
+  const input=document.getElementById('wc-input'); const word=input.value.trim(); if(!word)return;
+  const btn=document.getElementById('wc-btn'); btn.disabled=true;
+  try{ await addDoc(wordsRef,{ word, created_at:serverTimestamp() }); input.value=''; }catch(e){ console.error(e); }finally{ btn.disabled=false; }
+};
+document.getElementById('wc-input')?.addEventListener('keypress', e=>{ if(e.key==='Enter') window.wcSubmit(); });
+document.getElementById('wc-btn')?.addEventListener('click', window.wcSubmit);
+onSnapshot(query(wordsRef, orderBy('created_at','asc')), snap=>{
+  const words=[]; snap.forEach(d=>words.push(d.data().word));
+  const counts={}; words.forEach(w=>counts[w]=(counts[w]||0)+1);
+  wcData=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('wc-total').textContent=words.length;
+  document.getElementById('wc-unique').textContent=wcData.length;
+  document.getElementById('wc-list').innerHTML=wcData.slice(0,12).map(([w,c])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);"><span>${w}</span><span style="color:var(--accent);font-weight:700;">${c}</span></div>`).join('')||'<div style="color:#555;padding:8px 0;">尚無資料</div>';
+  const empty=document.getElementById('wc-empty'); if(empty) empty.style.display=wcData.length>0?'none':'';
+  window.drawWordCloud();
+});
+window.drawWordCloud=function(){
+  const canvas=document.getElementById('wc-canvas'); if(!canvas||typeof WordCloud==='undefined')return;
+  const rect=canvas.getBoundingClientRect(); if(rect.width<10||rect.height<10)return;
+  canvas.width=rect.width; canvas.height=rect.height; if(wcData.length===0)return;
+  const maxCount=wcData[0][1];
+  WordCloud(canvas,{ list:wcData.map(([w,c])=>[w,Math.max(18,Math.round((c/maxCount)*70))]),
+    gridSize:6, weightFactor:1, fontFamily:'"Microsoft JhengHei","Noto Sans TC",sans-serif',
+    color:()=>COLORS[Math.floor(Math.random()*COLORS.length)], backgroundColor:'transparent', rotateRatio:0.3, shuffle:true });
+};
+
+/* --- 投票 --- */
+const POLL_OPTIONS=[
+  { id:'a', label:'往下坡走、找水源' },
+  { id:'b', label:'朝「回家/熟悉地方」的方向' },
+  { id:'c', label:'躲進樹叢、涵洞等隱蔽處' },
+  { id:'d', label:'沿原路折返' },
+];
+const pollRef=doc(fdb, SLUG+'_poll','results');
+const userId='u_'+Math.random().toString(36).slice(2,9);
+let myVote=null;
+const pollBox=document.getElementById('poll-options');
+POLL_OPTIONS.forEach(opt=>{
+  const btn=document.createElement('button');
+  btn.innerHTML=`<div style="display:flex;align-items:center;gap:12px;">
+    <span id="pk-${opt.id}" style="flex:0 0 24px;height:24px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;"></span>
+    <span style="flex:1;text-align:left;">${opt.label}</span>
+    <span style="flex:0 0 130px;height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;"><span id="pb-${opt.id}" style="display:block;height:100%;width:0;background:var(--accent2);border-radius:4px;transition:width .4s;"></span></span>
+    <span id="pp-${opt.id}" style="flex:0 0 42px;text-align:right;font-size:0.8em;color:#888;">0%</span></div>`;
+  btn.style.cssText='width:100%;padding:13px 18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:10px;color:#fff;font-size:0.5em;cursor:pointer;font-family:inherit;';
+  btn.onclick=()=>vote(opt.id);
+  pollBox.appendChild(btn);
+});
+async function vote(optId){ myVote=optId;
+  try{ await setDoc(pollRef,{ updated_at:serverTimestamp(), votes:{ [userId]:optId } },{ merge:true }); }catch(e){ console.error(e); }
+}
+onSnapshot(pollRef, snap=>{
+  const votes=(snap.data()||{}).votes||{};
+  const counts={}; POLL_OPTIONS.forEach(o=>counts[o.id]=0);
+  Object.values(votes).forEach(v=>{ if(counts[v]!==undefined) counts[v]++; });
+  const total=Object.values(counts).reduce((a,b)=>a+b,0);
+  document.getElementById('poll-total').textContent=total;
+  POLL_OPTIONS.forEach(opt=>{
+    const pct=total>0?Math.round(counts[opt.id]/total*100):0;
+    document.getElementById('pb-'+opt.id).style.width=pct+'%';
+    document.getElementById('pp-'+opt.id).textContent=pct+'%';
+    const k=document.getElementById('pk-'+opt.id);
+    if(myVote===opt.id){ k.textContent='✓'; k.style.background='var(--accent2)'; k.style.borderColor='var(--accent2)'; }
+    else{ k.textContent=''; k.style.background='transparent'; k.style.borderColor='rgba(255,255,255,0.3)'; }
+  });
+});
+
+/* --- 提問牆（全域側邊欄） --- */
+const qaRef=collection(fdb, SLUG+'_qa');
+window.qaSubmit=async function(){
+  const input=document.getElementById('qa-input'); const text=input.value.trim(); if(!text)return;
+  const btn=document.getElementById('qa-btn'); btn.disabled=true;
+  try{ await addDoc(qaRef,{ text, likes:0, created_at:serverTimestamp() }); input.value=''; }catch(e){ console.error(e); }finally{ btn.disabled=false; }
+};
+document.getElementById('qa-input')?.addEventListener('keypress', e=>{ if(e.key==='Enter') window.qaSubmit(); });
+document.getElementById('qa-btn')?.addEventListener('click', window.qaSubmit);
+window.qaLike=async function(id,cur){ try{ await updateDoc(doc(fdb,SLUG+'_qa',id),{ likes:(cur||0)+1 }); }catch(e){ console.error(e); } };
+onSnapshot(query(qaRef, orderBy('created_at','desc')), snap=>{
+  const items=[]; snap.forEach(d=>items.push({ id:d.id, ...d.data() }));
+  items.sort((a,b)=>(b.likes||0)-(a.likes||0));
+  const list=document.getElementById('qa-list');
+  list.innerHTML=items.length? items.map(q=>`<div class="qa-item"><span class="qa-text">${escapeHtml(q.text)}</span><button class="qa-like" onclick="qaLike('${q.id}',${q.likes||0})">👍 ${q.likes||0}</button></div>`).join('') : '<div style="color:#555;text-align:center;padding:20px;font-size:14px;">還沒有問題，當第一個發問的人 🙋</div>';
+});
+function escapeHtml(s){ return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const qaSidebar=document.getElementById('qa-sidebar');
+const qaOverlay=document.getElementById('qa-overlay');
+window.toggleQA=function(force){
+  const open=(force!==undefined)?force:!qaSidebar.classList.contains('open');
+  qaSidebar.classList.toggle('open',open); qaOverlay.classList.toggle('show',open);
+  if(open) setTimeout(()=>document.getElementById('qa-input')?.focus(),300);
+};
+document.getElementById('qa-handle')?.addEventListener('click',()=>window.toggleQA());
+qaOverlay?.addEventListener('click',()=>window.toggleQA(false));
+
+/* --- 觸控防誤觸 --- */
+document.querySelectorAll('[data-prevent-swipe]').forEach(el=>{
+  ['touchstart','touchmove','touchend'].forEach(ev=> el.addEventListener(ev, e=>e.stopPropagation(), { passive:false }));
+});
+
+/* --- 老師課後重置：網址加 ?reset=1 --- */
+window.resetLPT=async function(silent){
+  let total=0;
+  for(const c of [SLUG+'_wordcloud', SLUG+'_qa']){
+    const snap=await getDocs(collection(fdb,c));
+    for(const d of snap.docs){ await deleteDoc(d.ref); total++; }
+  }
+  try{ await deleteDoc(doc(fdb, SLUG+'_poll','results')); }catch(e){}
+  if(!silent) alert('已清空互動資料，共 '+total+' 筆。');
+  return total;
+};
+if(new URLSearchParams(location.search).get('reset')==='1'){
+  setTimeout(()=>{ if(confirm('【老師專用】確定清空本簡報所有互動資料？')) window.resetLPT(); }, 800);
+}
+</script>
+</body>
+</html>
