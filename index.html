@@ -546,19 +546,55 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   </div>
 </section>
 
-<!-- 35 掃描寬度 chart -->
-<section id="slide-sweep" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
-  <div class="qhead">📏 涵蓋密度三步驟｜① 有效掃描寬度 W 隨地形變化</div>
-  <p class="small" style="margin:0 0 4px;">① 查 W（看地形）→ ② 覆蓋率 C = W ÷ 間距 → ③ POD = 1 − e^(−C)</p>
-  <div style="max-width:900px; height:330px; margin:0 auto;"><canvas id="sweep-canvas"></canvas></div>
-  <div class="note">地形越密（W 越小），就得排得越近才能維持相同 POD。</div>
-</section>
-
-<!-- 36 POD chart -->
+<!-- 35 涵蓋密度 W→C→POD（合併，tab 切換） -->
 <section id="slide-pod" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
-  <div class="qhead">📈 ③ 覆蓋率 C → POD = 1 − e^(−C)</div>
-  <div style="max-width:820px; height:340px; margin:0 auto;"><canvas id="pod-canvas"></canvas></div>
-  <div class="note o" style="font-size:0.5em;"><b>實例：</b>中級山闊葉林 W≈15m，間距 30m → C=0.5 → POD≈39%；想拉到 63%，把間距縮成 15m（C=1.0）。多次搜尋、GPS 軌跡記錄可提高覆蓋。</div>
+  <div class="qhead">📏 涵蓋密度：掃描寬度 → 覆蓋率 → POD</div>
+  <div style="display:grid; grid-template-columns:1.02fr 1fr; gap:18px; align-items:start; margin-top:0.1em;">
+    <div>
+      <p class="small" style="margin:0 0 4px;">依 Koopman 隨機搜索理論：<b class="hl">POD = 1 − e^(−C)</b></p>
+      <div style="height:300px;"><canvas id="pod-canvas"></canvas></div>
+    </div>
+    <div>
+      <div class="defs" style="margin-top:0;">
+        <div class="def"><div class="dk">W 掃描寬度</div><div class="dv">Effective Sweep Width：搜索員平均能看清目標的橫向寬度（隨植被劇烈變化）</div></div>
+        <div class="def"><div class="dk">S 搜索者間距</div><div class="dv">相鄰兩名搜索員之間的橫向距離</div></div>
+        <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">C 覆蓋率</div><div class="dv"><b>C ＝ W ÷ S</b>；間距越密、C 越大、POD 越高</div></div>
+        <div class="def" style="border-left-color:var(--success)"><div class="dk" style="color:var(--success)">CS 臨界間距</div><div class="dv">Critical Separation：間距抓在「剛好還看得到線索」的距離</div></div>
+      </div>
+      <div class="tabs" style="margin-top:0.4em;">
+        <button class="tab active" data-tab="cov1">覆蓋率對照</button>
+        <button class="tab" data-tab="cov2">間距 × 掃描寬度</button>
+      </div>
+      <div class="tabpanel active" id="tab-cov1">
+        <div class="note" style="margin-top:0; font-size:0.46em;">
+          <b>C → POD：</b>C=0.5→39%｜C=1.0→63%｜C=1.5→78%｜C=2.0→86%<br>
+          <b class="hl2">W 與 CS 的關係：</b>臨界間距 <b>CS ＝ 2×W</b>（約為掃描寬度的兩倍）。故站在 <b>1×CS（S=2W）→ C=0.5 → POD≈39%</b>；把間距減半到 <b>½CS（S=W）→ C=1.0 → POD≈63%</b>。CS 越小（靠越近）→ C 越大 → POD 越高。
+        </div>
+      </div>
+      <div class="tabpanel" id="tab-cov2">
+        <div class="note" style="margin-top:0; font-size:0.44em;">
+          <b>掃描寬度 W 固定、間距 S 減半 → 覆蓋率 C 加倍：</b>
+          <svg viewBox="0 0 400 150" style="width:100%; height:auto; margin:6px 0; background:rgba(255,255,255,0.03); border-radius:8px;">
+            <text x="10" y="16" fill="#9fb0c0" font-size="11">1×CS（S=2W）：帶相接仍有縫 → C=0.5 → POD 39%</text>
+            <rect x="20" y="24" width="90" height="22" fill="#14b8a6" fill-opacity="0.45"/>
+            <rect x="150" y="24" width="90" height="22" fill="#14b8a6" fill-opacity="0.45"/>
+            <rect x="280" y="24" width="90" height="22" fill="#14b8a6" fill-opacity="0.45"/>
+            <circle cx="65" cy="24" r="4" fill="#eab308"/><circle cx="195" cy="24" r="4" fill="#eab308"/><circle cx="325" cy="24" r="4" fill="#eab308"/>
+            <text x="130" y="40" fill="#f87171" font-size="12" text-anchor="middle">漏</text>
+            <text x="260" y="40" fill="#f87171" font-size="12" text-anchor="middle">漏</text>
+            <text x="10" y="92" fill="#9fb0c0" font-size="11">½CS（S=W）：重疊不留縫 → C=1.0 → POD 63%</text>
+            <rect x="20" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="85" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="150" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="215" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="280" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
+            <circle cx="65" cy="100" r="4" fill="#eab308"/><circle cx="130" cy="100" r="4" fill="#eab308"/><circle cx="195" cy="100" r="4" fill="#eab308"/><circle cx="260" cy="100" r="4" fill="#eab308"/><circle cx="325" cy="100" r="4" fill="#eab308"/>
+          </svg>
+          <b class="hl">重點：</b>站太開（1×CS）帶與帶之間有縫會漏搜；靠越近（½CS）重疊不留縫、找到率翻倍——但越耗人力與時間。實務由指揮官在「速度↔徹底度」間取捨。
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- 37 模組六 章封 -->
@@ -637,7 +673,6 @@ function applyResponsive(){
   setTimeout(()=>{ const id=Reveal.getCurrentSlide&&Reveal.getCurrentSlide()?.id;
     if(id==='slide-wordcloud') window.drawWordCloud&&window.drawWordCloud();
     if(id==='slide-dist') window.initDist&&window.initDist();
-    if(id==='slide-sweep') window.initSweep&&window.initSweep();
     if(id==='slide-pod') window.initPod&&window.initPod(); }, 250);
 }
 const ds = deckSize();
@@ -656,7 +691,6 @@ Reveal.on('slidechanged', e=>{ if(e.currentSlide) e.currentSlide.scrollTop=0;
   const id=e.currentSlide?.id;
   if(id==='slide-wordcloud') setTimeout(()=>window.drawWordCloud&&window.drawWordCloud(),150);
   if(id==='slide-dist') setTimeout(()=>window.initDist&&window.initDist(),150);
-  if(id==='slide-sweep') setTimeout(()=>window.initSweep&&window.initSweep(),150);
   if(id==='slide-pod') setTimeout(()=>window.initPod&&window.initPod(),150);
 });
 
@@ -670,7 +704,7 @@ document.querySelectorAll('.tabs .tab').forEach(t=>t.addEventListener('click',()
 
 /* === Chart.js（三張，切到該頁才建立） === */
 const CH={ grid:'rgba(255,255,255,0.08)', tick:'#aab6c4' };
-let _dist,_sweep,_pod;
+let _dist,_pod;
 window.initDist=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('dist-canvas'); if(!c)return;
   if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initDist,250); return; } if(_dist){_dist.resize();return;}
   _dist=new Chart(c,{ type:'bar', data:{ labels:['登山客(台灣)','兒童1-6','失智長者','抑鬱/輕生','健行者','獵人','釣客'],
@@ -678,14 +712,6 @@ window.initDist=function(){ if(typeof Chart==='undefined')return; const c=docume
     backgroundColor:['#e8643a','#ffb74d','#ce93d8','#f48fb1','#4fc3f7','#81c784','#80deea'], borderRadius:6 }] },
     options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{color:'#ccc'}}},
       scales:{ y:{ticks:{color:CH.tick,callback:v=>v+' km'},grid:{color:CH.grid}}, x:{ticks:{color:'#dde5ee',font:{size:11}},grid:{display:false}} } } });
-};
-window.initSweep=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('sweep-canvas'); if(!c)return;
-  if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initSweep,250); return; } if(_sweep){_sweep.resize();return;}
-  _sweep=new Chart(c,{ type:'bar', data:{ labels:['高山箭竹草原','高山岩屑地/寒原','二葉松/鐵杉疏林','中級山闊葉混合林','溪谷巨石區','極密箭竹/高芒草'],
-    datasets:[{ label:'有效掃描寬度 W (m)', data:[50,100,40,15,12,3.5],
-    backgroundColor:['#81c784','#4fc3f7','#a3e635','#ffb74d','#f59e0b','#dc2626'], borderRadius:6 }] },
-    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:x=>'W ≈ '+x.parsed.x+' m'}}},
-      scales:{ x:{min:0,max:110,ticks:{color:CH.tick,callback:v=>v+'m'},grid:{color:CH.grid}}, y:{ticks:{color:'#dde5ee',font:{size:11}},grid:{display:false}} } } });
 };
 window.initPod=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('pod-canvas'); if(!c)return;
   if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initPod,250); return; } if(_pod){_pod.resize();return;}
