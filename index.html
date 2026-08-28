@@ -14,13 +14,13 @@
 .reveal{ font-family:'Segoe UI','Noto Sans TC',sans-serif; }
 .reveal h1,.reveal h2,.reveal h3{ font-family:'Segoe UI','Noto Sans TC',sans-serif; font-weight:700; letter-spacing:-0.02em; }
 .reveal h1{ font-size:2.05em; }
-.reveal h2{ font-size:1.4em; color:var(--accent2); }
-.reveal h3{ font-size:0.9em; color:var(--warn); }
+.reveal h2{ font-size:1.35em; color:var(--accent2); }
+.reveal h3{ font-size:0.85em; color:var(--warn); }
 .reveal .progress{ color:var(--accent); }
 .reveal section{ text-align:left; }
 .reveal p{ line-height:1.5; }
-.lead{ font-size:0.62em; color:#cdd6e0; line-height:1.7; }
-.small{ font-size:0.5em; color:#9fb0c0; }
+.lead{ font-size:0.66em; color:#cdd6e0; line-height:1.7; }
+.small{ font-size:0.52em; color:#9fb0c0; }
 .hl{ color:var(--accent); font-weight:700; }
 .hl2{ color:var(--accent2); font-weight:700; }
 .reveal .backgrounds .slide-background-content::after{ content:''; position:absolute; inset:0; background:rgba(7,11,18,0.42); }
@@ -46,48 +46,48 @@
 .card.o{ border-top-color:var(--accent); }
 .card.g{ border-top-color:var(--success); }
 .card.y{ border-top-color:var(--warn); }
-.card .ct{ font-size:0.5em; font-weight:700; color:#fff; margin-bottom:5px; }
-.card .cd{ font-size:0.4em; color:#b7c3cf; line-height:1.55; }
+.card .ct{ font-size:0.54em; font-weight:700; color:#fff; margin-bottom:5px; }
+.card .cd{ font-size:0.44em; color:#b7c3cf; line-height:1.55; }
 .card .cn{ display:inline-block; min-width:26px; height:26px; line-height:26px; text-align:center; background:var(--accent); color:#0d1117; border-radius:50%; font-weight:800; font-size:0.42em; margin-bottom:6px; }
-.clist{ list-style:none; padding:0; margin:0; font-size:0.4em; color:#b7c3cf; line-height:1.5; }
+.clist{ list-style:none; padding:0; margin:0; font-size:0.44em; color:#b7c3cf; line-height:1.5; }
 .clist li{ padding:4px 0 4px 15px; position:relative; }
 .clist li::before{ content:"▸"; position:absolute; left:0; color:var(--accent2); }
 /* 族群卡片（仿黃金60分卡片樣式） */
 .jgrid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:0.5em; }
 .jcard{ background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-left:4px solid var(--accent); border-radius:10px; padding:12px 16px; }
-.jlabel{ font-size:0.34em; color:var(--accent); font-weight:700; letter-spacing:0.02em; margin-bottom:4px; }
-.jtitle{ font-size:0.52em; font-weight:800; color:#fff; margin-bottom:6px; }
-.jdesc{ font-size:0.36em; color:#b7c3cf; line-height:1.55; margin-bottom:9px; }
-.jchip{ font-size:0.34em; color:#cfe6f5; background:rgba(79,195,247,0.13); border:1px solid rgba(79,195,247,0.3); border-radius:7px; padding:6px 10px; line-height:1.45; }
+.jlabel{ font-size:0.38em; color:var(--accent); font-weight:700; letter-spacing:0.02em; margin-bottom:4px; }
+.jtitle{ font-size:0.54em; font-weight:800; color:#fff; margin-bottom:6px; }
+.jdesc{ font-size:0.4em; color:#b7c3cf; line-height:1.55; margin-bottom:9px; }
+.jchip{ font-size:0.38em; color:#cfe6f5; background:rgba(79,195,247,0.13); border:1px solid rgba(79,195,247,0.3); border-radius:7px; padding:6px 10px; line-height:1.45; }
 body.mobile .jgrid{ grid-template-columns:1fr; }
 /* 分頁切換 tab（仿黃金60分/SMEAC 切換） */
 .tabs{ display:flex; gap:10px; margin:0.2em 0 0.6em; flex-wrap:wrap; }
-.tab{ padding:7px 15px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:#cdd6e0; font-size:0.42em; font-weight:700; cursor:pointer; font-family:inherit; }
+.tab{ padding:7px 15px; border-radius:8px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.18); color:#cdd6e0; font-size:0.46em; font-weight:700; cursor:pointer; font-family:inherit; }
 .tab.active{ background:var(--accent); color:#0d1117; border-color:var(--accent); }
 .tabpanel{ display:none; }
 .tabpanel.active{ display:block; }
 
 /* 步驟清單 */
 .steps{ list-style:none; padding:0; margin:0.5em 0 0; }
-.steps li{ font-size:0.5em; color:#cdd6e0; padding:8px 0 8px 40px; position:relative; border-bottom:1px solid rgba(255,255,255,0.07); line-height:1.5; counter-increment:st; }
+.steps li{ font-size:0.54em; color:#cdd6e0; padding:8px 0 8px 40px; position:relative; border-bottom:1px solid rgba(255,255,255,0.07); line-height:1.5; counter-increment:st; }
 .steps li::before{ content:counter(st); position:absolute; left:0; top:7px; width:26px; height:26px; background:var(--accent2); color:#0d1117; border-radius:50%; font-weight:800; font-size:0.85em; text-align:center; line-height:26px; }
 .steps{ counter-reset:st; }
 
 /* 定義列 */
 .defs{ display:flex; flex-direction:column; gap:9px; margin-top:0.5em; }
 .def{ display:flex; gap:14px; align-items:baseline; background:rgba(255,255,255,0.04); border-left:3px solid var(--accent2); border-radius:8px; padding:9px 13px; }
-.def .dk{ flex:0 0 130px; font-weight:800; color:var(--accent2); font-size:0.5em; }
-.def .dv{ flex:1; font-size:0.44em; color:#c3ced9; line-height:1.5; }
+.def .dk{ flex:0 0 150px; font-weight:800; color:var(--accent2); font-size:0.54em; }
+.def .dv{ flex:1; font-size:0.46em; color:#c3ced9; line-height:1.5; }
 
 /* 重點框 */
-.note{ background:rgba(79,195,247,0.1); border:1px solid rgba(79,195,247,0.32); border-radius:10px; padding:13px 16px; font-size:0.48em; color:#d7e3ee; line-height:1.65; margin-top:0.6em; }
+.note{ background:rgba(79,195,247,0.1); border:1px solid rgba(79,195,247,0.32); border-radius:10px; padding:13px 16px; font-size:0.54em; color:#d7e3ee; line-height:1.65; margin-top:0.6em; }
 .note.o{ background:rgba(232,100,58,0.12); border-color:rgba(232,100,58,0.4); }
 .note.g{ background:rgba(129,199,132,0.12); border-color:rgba(129,199,132,0.4); }
 .note b{ color:#fff; }
-.quote{ background:rgba(255,255,255,0.05); border-left:4px solid var(--accent); border-radius:8px; padding:16px 20px; font-size:0.56em; color:#e2e8ee; font-style:italic; line-height:1.7; margin-top:0.4em; }
+.quote{ background:rgba(255,255,255,0.05); border-left:4px solid var(--accent); border-radius:8px; padding:16px 20px; font-size:0.62em; color:#e2e8ee; font-style:italic; line-height:1.7; margin-top:0.4em; }
 
 /* 表格 */
-.reveal table{ font-size:0.4em; width:100%; border-collapse:collapse; margin-top:0.5em; }
+.reveal table{ font-size:0.44em; width:100%; border-collapse:collapse; margin-top:0.5em; }
 .reveal table th{ background:#1f3350; color:#fff; padding:7px 9px; text-align:left; font-weight:700; }
 .reveal table td{ padding:6px 9px; border-bottom:1px solid rgba(255,255,255,0.09); color:#c3ced9; vertical-align:top; }
 .reveal table tr:nth-child(even) td{ background:rgba(255,255,255,0.03); }
@@ -97,7 +97,7 @@ body.mobile .jgrid{ grid-template-columns:1fr; }
 .ui-btn{ padding:9px 14px; background:var(--accent2); color:#0d1117; border:none; border-radius:8px; font-weight:700; font-size:13px; cursor:pointer; font-family:inherit; }
 .ui-btn:disabled{ opacity:0.5; }
 .live-badge{ display:inline-block; background:#ff4757; color:#fff; padding:2px 8px; border-radius:10px; font-size:0.5em; vertical-align:middle; animation:pulse 1.5s infinite; margin-left:8px; }
-.qhead{ font-size:1.05em; margin-bottom:0.4em; color:#fff; }
+.qhead{ font-size:1.35em; margin-bottom:0.4em; color:#fff; }
 @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.55;} }
 .qa-item{ background:rgba(255,255,255,0.06); border-left:3px solid var(--accent); border-radius:8px; padding:10px 12px; margin-bottom:8px; font-size:14px; display:flex; align-items:center; gap:10px; }
 .qa-text{ flex:1; color:#eee; line-height:1.5; text-align:left; }
@@ -146,7 +146,7 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 
 <!-- 2 破冰文字雲 -->
 <section id="slide-wordcloud" data-background-image="images/interact.jpg" data-background-opacity="0.16" data-background-size="cover">
-  <h2 style="font-size:1.05em; margin-bottom:0.3em;">🧭 破冰：你覺得「迷路的人」會往哪走？</h2>
+  <h2 style="margin-bottom:0.3em;">🧭 破冰：你覺得「迷路的人」會往哪走？</h2>
   <p class="small" style="margin:0 0 10px;">輸入一個關鍵詞（例：往下坡、找水、繞圈、回頭…），我們一起看大家的直覺</p>
   <div class="wc-wrap" style="display:grid; grid-template-columns:250px 1fr; gap:14px; height:420px;">
     <div style="display:flex; flex-direction:column; gap:10px;">
@@ -177,7 +177,7 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
     <div class="card g"><div class="ct">③ 足跡與痕跡判讀</div><div class="cd">量測、觀察法、方向、擾動、新舊</div></div>
     <div class="card y"><div class="ct">④ 失蹤者行為模式</div><div class="cd">個案分類、尋獲距離、搜索資料</div></div>
     <div class="card"><div class="ct">⑤ 區域搜索·涵蓋密度·POD</div><div class="cd">被動/主動、掃描寬度→覆蓋率→POD</div></div>
-    <div class="card o"><div class="ct">⑥ 實際練習</div><div class="cd">撲克牌暖身、20 公尺跡象追蹤</div></div>
+    <div class="card o"><div class="ct">⑥ 實際練習</div><div class="cd">撲克牌暖身、50 公尺跡象追蹤</div></div>
   </div>
   <div class="note">總課程 <b>16 小時</b>：本簡報為 <b>室內理論 4–6 小時</b>（六模組講一輪）；室內課後即進行 <b>戶外實作</b>。左側 🙋 提問牆全程開放。</div>
 </section>
@@ -262,23 +262,32 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 <!-- 12 基本術語 -->
 <section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>先搞懂：基本搜救術語</h2>
-  <table>
-    <tr><th>縮寫</th><th>全名</th><th>意義</th></tr>
-    <tr><td class="hl2">PLS</td><td>Point Last Seen</td><td>最後目擊點：最後一次「被人看到」的位置</td></tr>
-    <tr><td class="hl2">LKP</td><td>Last Known Point</td><td>最後已知點：最後一個可確認的位置證據（通聯、足跡）</td></tr>
-    <tr><td class="hl2">IPP</td><td>Initial Planning Point</td><td>初始規劃點：展開搜索的起算點，常設在第一個 LKP/PLS</td></tr>
-    <tr><td class="hl">POA</td><td>Probability of Area</td><td>區域機率：個案在某區塊的機率（各區加總 100%）</td></tr>
-    <tr><td class="hl">POD</td><td>Probability of Detection</td><td>偵測機率：搜索該區時「能發現」的機率</td></tr>
-    <tr><td class="hl">POS</td><td>Probability of Success</td><td>成功機率＝ POA × POD</td></tr>
-  </table>
-  <div class="note"><b>POD 因人而異：</b>取決於能力、經驗、細心與體能——<b>受訓者約 70–80%、一般人約 50%</b>。這也是「隊員層級也要練習估算 POD」的原因。</div>
+  <div class="tabs">
+    <button class="tab active" data-tab="t1">位置點</button>
+    <button class="tab" data-tab="t2">機率</button>
+  </div>
+  <div class="tabpanel active" id="tab-t1">
+    <div class="defs">
+      <div class="def"><div class="dk">PLS｜最後目擊點</div><div class="dv">Point Last Seen：最後一次「被人看到」的位置</div></div>
+      <div class="def"><div class="dk">LKP｜最後已知點</div><div class="dv">Last Known Point：最後一個可確認的位置證據（通聯、足跡）</div></div>
+      <div class="def"><div class="dk">IPP｜初始規劃點</div><div class="dv">Initial Planning Point：展開搜索的起算點，常設在第一個 LKP/PLS</div></div>
+    </div>
+  </div>
+  <div class="tabpanel" id="tab-t2">
+    <div class="defs">
+      <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">POA｜區域機率</div><div class="dv">Probability of Area：個案在某區塊的機率（各區加總 100%）</div></div>
+      <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">POD｜偵測機率</div><div class="dv">Probability of Detection：搜索該區時「能發現」的機率</div></div>
+      <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">POS｜成功機率</div><div class="dv">Probability of Success ＝ POA × POD</div></div>
+    </div>
+  </div>
+  <div class="note"><b>POD 因人而異：</b>受訓者約 70–80%、一般人約 50%——這也是「隊員層級也要練習估算 POD」的原因。</div>
 </section>
 
 <!-- 13 線索意識 -->
 <section data-background-image="images/mod2.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>線索意識</h2>
   <p class="lead">所有搜索者對線索應具備的警覺程度。搜救「找線索而非找個案」，因為線索數量遠多於人本身。</p>
-  <div class="note g" style="font-size:0.5em;"><b>補充觀念：</b>「<span class="hl">沒有任何線索，本身就等於一個線索</span>」——代表個案可能沒往這裡走，可據以排除區域。</div>
+  <div class="note g"><b>補充觀念：</b>「<span class="hl">沒有任何線索，本身就等於一個線索</span>」——代表個案可能沒往這裡走，可據以排除區域。</div>
   <h3 style="margin-top:0.5em;">夜間搜尋也能帶來線索</h3>
   <div class="cards c2" style="gap:12px;">
     <div class="card g"><div class="ct">優勢</div><ul class="clist">
@@ -511,7 +520,7 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   <div class="qhead">📊 各族群「50% 尋獲距離」比較</div>
   <p class="small" style="margin:0 0 6px;">滑鼠移到長條看數值（單位：公里）</p>
   <div style="max-width:900px; height:360px; margin:0 auto;"><canvas id="dist-canvas"></canvas></div>
-  <div class="note g" style="font-size:0.5em;"><b>台灣在地重點：</b>約 <span class="hl">80% 的山域迷途案件在距 IPP 一公里內</span>尋獲——與「LKP 1 公里起手式」呼應，可作初期熱區第一圈。</div>
+  <div class="note g"><b>台灣在地重點：</b>約 <span class="hl">80% 的山域迷途案件在距 IPP 一公里內</span>尋獲——與「LKP 1 公里起手式」呼應，可作初期熱區第一圈。</div>
 </section>
 
 <!-- 32 搜索資料清單 -->
@@ -569,7 +578,7 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
         </div>
       </div>
       <div class="tabpanel" id="tab-cov1">
-        <div class="note" style="margin-top:0; font-size:0.44em; line-height:1.7;">
+        <div class="note" style="margin-top:0; line-height:1.7;">
           <b>覆蓋率 → POD：</b><br>
           ・C = 0.5 → POD ≈ 39%<br>
           ・C = 1.0 → POD ≈ 63%<br>
@@ -583,7 +592,7 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
         </div>
       </div>
       <div class="tabpanel" id="tab-cov2">
-        <div class="note" style="margin-top:0; font-size:0.42em; line-height:1.55;">
+        <div class="note" style="margin-top:0; line-height:1.55;">
           <b>掃描寬度 W 固定 → 間距 S 減半，覆蓋率 C 加倍：</b>
           <svg viewBox="0 0 600 272" style="width:100%; height:auto; margin:5px 0; background:rgba(255,255,255,0.03); border-radius:8px;">
             <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#9fb0c0" stroke-width="1.4"/></marker></defs>
@@ -736,11 +745,11 @@ const CH={ grid:'rgba(255,255,255,0.08)', tick:'#aab6c4' };
 let _dist,_pod;
 window.initDist=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('dist-canvas'); if(!c)return;
   if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initDist,250); return; } if(_dist){_dist.resize();return;}
-  _dist=new Chart(c,{ type:'bar', data:{ labels:['登山客(台灣)','兒童1-6','失智長者','抑鬱/輕生','健行者','獵人','釣客'],
-    datasets:[{ label:'50% 尋獲距離 (km)', data:[1.2,1.6,1.95,2.0,3.2,4.9,9.8],
-    backgroundColor:['#e8643a','#ffb74d','#ce93d8','#f48fb1','#4fc3f7','#81c784','#80deea'], borderRadius:6 }] },
-    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{color:'#ccc'}}},
-      scales:{ y:{ticks:{color:CH.tick,callback:v=>v+' km'},grid:{color:CH.grid}}, x:{ticks:{color:'#dde5ee',font:{size:11}},grid:{display:false}} } } });
+  _dist=new Chart(c,{ type:'bar', data:{ labels:['登山客(台灣)','兒童1-6','自閉症','失智長者','抑鬱/輕生','露營者','精神病患','兒童7-12','健行者','獵人','採集者','釣客'],
+    datasets:[{ label:'50% 尋獲距離 (km)', data:[1.2,1.6,1.6,1.95,2.0,2.3,2.3,2.4,3.2,4.9,5.2,9.8],
+    backgroundColor:['#e8643a','#ffb74d','#ffd54f','#ce93d8','#f48fb1','#a1887f','#b39ddb','#ffb74d','#4fc3f7','#81c784','#a3e635','#80deea'], borderRadius:5 }] },
+    options:{ indexAxis:'y', responsive:true, maintainAspectRatio:false, plugins:{legend:{labels:{color:'#ccc'}},tooltip:{callbacks:{label:x=>x.parsed.x+' km'}}},
+      scales:{ x:{ticks:{color:CH.tick,callback:v=>v+' km'},grid:{color:CH.grid}}, y:{ticks:{color:'#dde5ee',font:{size:11}},grid:{display:false}} } } });
 };
 window.initPod=function(){ if(typeof Chart==='undefined')return; const c=document.getElementById('pod-canvas'); if(!c)return;
   if(c.parentElement.getBoundingClientRect().width<20){ setTimeout(window.initPod,250); return; } if(_pod){_pod.resize();return;}
