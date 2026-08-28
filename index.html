@@ -555,42 +555,74 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
       <div style="height:300px;"><canvas id="pod-canvas"></canvas></div>
     </div>
     <div>
-      <div class="defs" style="margin-top:0;">
-        <div class="def"><div class="dk">W 掃描寬度</div><div class="dv">Effective Sweep Width：搜索員平均能看清目標的橫向寬度（隨植被劇烈變化）</div></div>
-        <div class="def"><div class="dk">S 搜索者間距</div><div class="dv">相鄰兩名搜索員之間的橫向距離</div></div>
-        <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">C 覆蓋率</div><div class="dv"><b>C ＝ W ÷ S</b>；間距越密、C 越大、POD 越高</div></div>
-        <div class="def" style="border-left-color:var(--success)"><div class="dk" style="color:var(--success)">CS 臨界間距</div><div class="dv">Critical Separation：間距抓在「剛好還看得到線索」的距離</div></div>
-      </div>
-      <div class="tabs" style="margin-top:0.4em;">
-        <button class="tab active" data-tab="cov1">覆蓋率對照</button>
+      <div class="tabs" style="margin-top:0;">
+        <button class="tab active" data-tab="cov0">名詞定義</button>
+        <button class="tab" data-tab="cov1">覆蓋率對照</button>
         <button class="tab" data-tab="cov2">間距 × 掃描寬度</button>
       </div>
-      <div class="tabpanel active" id="tab-cov1">
-        <div class="note" style="margin-top:0; font-size:0.46em;">
-          <b>C → POD：</b>C=0.5→39%｜C=1.0→63%｜C=1.5→78%｜C=2.0→86%<br>
-          <b class="hl2">W 與 CS 的關係：</b>臨界間距 <b>CS ＝ 2×W</b>（約為掃描寬度的兩倍）。故站在 <b>1×CS（S=2W）→ C=0.5 → POD≈39%</b>；把間距減半到 <b>½CS（S=W）→ C=1.0 → POD≈63%</b>。CS 越小（靠越近）→ C 越大 → POD 越高。
+      <div class="tabpanel active" id="tab-cov0">
+        <div class="defs" style="margin-top:0;">
+          <div class="def"><div class="dk">W 掃描寬度</div><div class="dv">Effective Sweep Width：搜索員平均能看清目標的橫向寬度（隨植被劇烈變化）</div></div>
+          <div class="def"><div class="dk">S 搜索者間距</div><div class="dv">相鄰兩名搜索員之間的橫向距離</div></div>
+          <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">C 覆蓋率</div><div class="dv"><b>C ＝ W ÷ S</b>；間距越密、C 越大、POD 越高</div></div>
+          <div class="def" style="border-left-color:var(--success)"><div class="dk" style="color:var(--success)">CS 臨界間距</div><div class="dv">Critical Separation：間距抓在「剛好還偵測得到線索」的距離；<b>W 可以等於 CS</b></div></div>
+        </div>
+      </div>
+      <div class="tabpanel" id="tab-cov1">
+        <div class="note" style="margin-top:0; font-size:0.44em; line-height:1.7;">
+          <b>覆蓋率 → POD：</b><br>
+          ・C = 0.5 → POD ≈ 39%<br>
+          ・C = 1.0 → POD ≈ 63%<br>
+          ・C = 1.5 → POD ≈ 78%<br>
+          ・C = 2.0 → POD ≈ 86%<br>
+          <b class="hl2">W 與 CS 的關係：</b><br>
+          ・臨界間距 <b>CS ≈ W</b>（W 可以等於 CS）<br>
+          ・S = CS（=W）→ C = 1.0 → POD 63%<br>
+          ・放寬到 S = 2W → C = 0.5 → 39%<br>
+          ・S 縮到 CS 以下 → C 越大 → POD 越高
         </div>
       </div>
       <div class="tabpanel" id="tab-cov2">
-        <div class="note" style="margin-top:0; font-size:0.44em;">
-          <b>掃描寬度 W 固定、間距 S 減半 → 覆蓋率 C 加倍：</b>
-          <svg viewBox="0 0 400 150" style="width:100%; height:auto; margin:6px 0; background:rgba(255,255,255,0.03); border-radius:8px;">
-            <text x="10" y="16" fill="#9fb0c0" font-size="11">1×CS（S=2W）：帶相接仍有縫 → C=0.5 → POD 39%</text>
-            <rect x="20" y="24" width="90" height="22" fill="#14b8a6" fill-opacity="0.45"/>
-            <rect x="150" y="24" width="90" height="22" fill="#14b8a6" fill-opacity="0.45"/>
-            <rect x="280" y="24" width="90" height="22" fill="#14b8a6" fill-opacity="0.45"/>
-            <circle cx="65" cy="24" r="4" fill="#eab308"/><circle cx="195" cy="24" r="4" fill="#eab308"/><circle cx="325" cy="24" r="4" fill="#eab308"/>
-            <text x="130" y="40" fill="#f87171" font-size="12" text-anchor="middle">漏</text>
-            <text x="260" y="40" fill="#f87171" font-size="12" text-anchor="middle">漏</text>
-            <text x="10" y="92" fill="#9fb0c0" font-size="11">½CS（S=W）：重疊不留縫 → C=1.0 → POD 63%</text>
-            <rect x="20" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
-            <rect x="85" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
-            <rect x="150" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
-            <rect x="215" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
-            <rect x="280" y="100" width="90" height="22" fill="#14b8a6" fill-opacity="0.5"/>
-            <circle cx="65" cy="100" r="4" fill="#eab308"/><circle cx="130" cy="100" r="4" fill="#eab308"/><circle cx="195" cy="100" r="4" fill="#eab308"/><circle cx="260" cy="100" r="4" fill="#eab308"/><circle cx="325" cy="100" r="4" fill="#eab308"/>
+        <div class="note" style="margin-top:0; font-size:0.42em; line-height:1.55;">
+          <b>掃描寬度 W 固定 → 間距 S 減半，覆蓋率 C 加倍：</b>
+          <svg viewBox="0 0 600 272" style="width:100%; height:auto; margin:5px 0; background:rgba(255,255,255,0.03); border-radius:8px;">
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="#9fb0c0" stroke-width="1.4"/></marker></defs>
+            <line x1="64" y1="42" x2="196" y2="42" stroke="#9fb0c0" stroke-width="1.2" marker-start="url(#ar)" marker-end="url(#ar)"/>
+            <text x="130" y="37" fill="#c3ced9" font-size="12" text-anchor="middle">間距 S</text>
+            <!-- Row1 C=0.5 -->
+            <rect x="12" y="52" width="372" height="56" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)"/>
+            <rect x="24" y="52" width="80" height="56" fill="#14b8a6" fill-opacity="0.45"/>
+            <rect x="156" y="52" width="80" height="56" fill="#14b8a6" fill-opacity="0.45"/>
+            <rect x="288" y="52" width="80" height="56" fill="#14b8a6" fill-opacity="0.45"/>
+            <circle cx="64" cy="52" r="4" fill="#eab308"/><circle cx="196" cy="52" r="4" fill="#eab308"/><circle cx="328" cy="52" r="4" fill="#eab308"/>
+            <text x="130" y="86" fill="#f87171" font-size="13" text-anchor="middle">漏</text>
+            <text x="262" y="86" fill="#f87171" font-size="13" text-anchor="middle">漏</text>
+            <path d="M24 112 L24 116 L104 116 L104 112" fill="none" stroke="#9fb0c0" stroke-width="1"/>
+            <text x="64" y="129" fill="#9fb0c0" font-size="11" text-anchor="middle">寬 W</text>
+            <rect x="400" y="60" width="13" height="13" rx="3" fill="#dc2626"/>
+            <text x="420" y="72" fill="#fff" font-size="16" font-weight="700">C = 0.5</text>
+            <text x="420" y="92" fill="#b7c3cf" font-size="12">POD 39% · 有縫隙漏搜</text>
+            <!-- Row2 C=1.0 S=W -->
+            <rect x="12" y="140" width="372" height="56" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)"/>
+            <rect x="24" y="140" width="80" height="56" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="104" y="140" width="80" height="56" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="184" y="140" width="80" height="56" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="264" y="140" width="80" height="56" fill="#14b8a6" fill-opacity="0.5"/>
+            <rect x="344" y="140" width="40" height="56" fill="#14b8a6" fill-opacity="0.5"/>
+            <circle cx="64" cy="140" r="4" fill="#eab308"/><circle cx="144" cy="140" r="4" fill="#eab308"/><circle cx="224" cy="140" r="4" fill="#eab308"/><circle cx="304" cy="140" r="4" fill="#eab308"/>
+            <rect x="400" y="148" width="13" height="13" rx="3" fill="#eab308"/>
+            <text x="420" y="160" fill="#fff" font-size="16" font-weight="700">C = 1.0（S=W）</text>
+            <text x="420" y="180" fill="#b7c3cf" font-size="12">POD 63% · 臨界間距 CS</text>
+            <!-- Row3 C=2.0 -->
+            <rect x="12" y="206" width="372" height="56" rx="5" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.12)"/>
+            <rect x="24" y="206" width="348" height="56" fill="#0f766e" fill-opacity="0.78"/>
+            <circle cx="64" cy="206" r="4" fill="#eab308"/><circle cx="120" cy="206" r="4" fill="#eab308"/><circle cx="176" cy="206" r="4" fill="#eab308"/><circle cx="232" cy="206" r="4" fill="#eab308"/><circle cx="288" cy="206" r="4" fill="#eab308"/><circle cx="344" cy="206" r="4" fill="#eab308"/>
+            <rect x="400" y="214" width="13" height="13" rx="3" fill="#2e7d32"/>
+            <text x="420" y="226" fill="#fff" font-size="16" font-weight="700">C = 2.0</text>
+            <text x="420" y="246" fill="#b7c3cf" font-size="12">POD 86% · 重疊扎實</text>
           </svg>
-          <b class="hl">重點：</b>站太開（1×CS）帶與帶之間有縫會漏搜；靠越近（½CS）重疊不留縫、找到率翻倍——但越耗人力與時間。實務由指揮官在「速度↔徹底度」間取捨。
+          <div><b>C→POD：</b>0.5→39%　1.0→63%　1.5→78%　2.0→86%</div>
+          <div style="margin-top:3px; color:#9fb0c0;">臨界間距 CS＝剛好還偵測得到的間距；<b class="hl2">掃描寬度 W 可以等於 CS</b>；S 縮到 CS 以下 → POD 更高。</div>
         </div>
       </div>
     </div>
