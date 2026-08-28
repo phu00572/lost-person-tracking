@@ -49,6 +49,9 @@
 .card .ct{ font-size:0.5em; font-weight:700; color:#fff; margin-bottom:5px; }
 .card .cd{ font-size:0.4em; color:#b7c3cf; line-height:1.55; }
 .card .cn{ display:inline-block; min-width:26px; height:26px; line-height:26px; text-align:center; background:var(--accent); color:#0d1117; border-radius:50%; font-weight:800; font-size:0.42em; margin-bottom:6px; }
+.clist{ list-style:none; padding:0; margin:0; font-size:0.4em; color:#b7c3cf; line-height:1.5; }
+.clist li{ padding:4px 0 4px 15px; position:relative; }
+.clist li::before{ content:"▸"; position:absolute; left:0; color:var(--accent2); }
 
 /* 步驟清單 */
 .steps{ list-style:none; padding:0; margin:0.5em 0 0; }
@@ -264,8 +267,18 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   <div class="note g" style="font-size:0.5em;"><b>補充觀念：</b>「<span class="hl">沒有任何線索，本身就等於一個線索</span>」——代表個案可能沒往這裡走，可據以排除區域。</div>
   <h3 style="margin-top:0.5em;">夜間搜尋也能帶來線索</h3>
   <div class="cards c2" style="gap:12px;">
-    <div class="card g"><div class="ct">優勢</div><div class="cd">個案多半停下 → 範圍不再擴大（圈住熱區）；燈光/火光/反光/螢光可見距離遠；夜間安靜，呼叫—靜聽效果好；個案會用手電筒、生火、喊叫「放大自己」而更易被發現。</div></div>
-    <div class="card y"><div class="ct">缺點</div><div class="cd">能見度低，足跡/擾動等「視覺線索」難判讀；地形危險、搜救員自身風險高（濕滑、墜落、失溫）；覆蓋率下降、易漏搜、體力消耗大；需更多照明裝備，安全與管理負擔重。</div></div>
+    <div class="card g"><div class="ct">優勢</div><ul class="clist">
+      <li>個案多半停下 → 搜索範圍不再擴大（圈住熱區）</li>
+      <li>燈光／火光／反光／螢光的可見距離遠</li>
+      <li>夜間安靜，呼叫—靜聽效果好</li>
+      <li>個案會用手電筒、生火、喊叫「放大自己」而更易被發現</li>
+    </ul></div>
+    <div class="card y"><div class="ct">缺點</div><ul class="clist">
+      <li>能見度低，足跡／擾動等「視覺線索」難判讀</li>
+      <li>地形危險、搜救員自身風險高（濕滑、墜落、失溫）</li>
+      <li>覆蓋率下降、易漏搜、體力消耗大</li>
+      <li>需更多照明裝備，安全與管理負擔重</li>
+    </ul></div>
   </div>
 </section>
 
