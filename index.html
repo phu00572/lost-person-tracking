@@ -66,6 +66,15 @@ body.mobile .jgrid{ grid-template-columns:1fr; }
 .tab.active{ background:var(--accent); color:#0d1117; border-color:var(--accent); }
 .tabpanel{ display:none; }
 .tabpanel.active{ display:block; }
+/* 教學實拍媒體 */
+.mtag{ display:inline-block; background:var(--accent); color:#0d1117; font-size:0.34em; font-weight:700; padding:3px 12px; border-radius:14px; margin-bottom:6px; letter-spacing:0.04em; }
+.mgrid{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:flex-end; margin-top:0.3em; }
+.mitem{ text-align:center; }
+.mitem img, .mitem video{ max-height:220px; max-width:250px; border-radius:8px; border:1px solid rgba(255,255,255,0.14); background:#0a0e14; display:block; margin:0 auto; }
+.mitem .cap{ font-size:0.34em; color:#aab6c4; margin-top:5px; max-width:250px; line-height:1.35; }
+body.mobile .mgrid{ gap:16px; }
+body.mobile .mitem img, body.mobile .mitem video{ max-height:320px; max-width:88vw; }
+body.mobile .mitem .cap{ font-size:16px; max-width:90vw; }
 
 /* 步驟清單 */
 .steps{ list-style:none; padding:0; margin:0.5em 0 0; }
@@ -364,6 +373,16 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   <div class="note">現場多半只看到鞋印一小角落，所以「<b>記錄最大特徵</b>」比量到完整尺寸更關鍵。</div>
 </section>
 
+<!-- 18b 實拍：步寬與步幅 -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍</div>
+  <h2>實拍：步寬 Straddle 與步幅</h2>
+  <div class="mgrid">
+    <div class="mitem"><img src="media/m_straddle.jpg" alt="步寬 straddle"><div class="cap">步寬 Straddle（兩腳印內緣寬度）</div></div>
+    <div class="mitem"><img src="media/m_stride.jpg" alt="步幅"><div class="cap">步幅（腳跟到腳跟）</div></div>
+  </div>
+</section>
+
 <!-- 19 觀察法 -->
 <section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>觀察法與光線運用</h2>
@@ -373,6 +392,31 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
     <li><b>光源</b>：面向陽光找；手電筒降低角度、改變亮度（頭燈正上方常看不到；過亮反而失對比）</li>
     <li><b>換角度</b>：方向錯了就看不到；找不到時換角度、換人、拉遠製造對比</li>
   </ul>
+</section>
+
+<!-- 19b 實拍：光線角度與陰影（圖） -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍</div>
+  <h2>實拍：光線角度與陰影</h2>
+  <div class="mgrid">
+    <div class="mitem"><img src="media/m_sun_shadow.jpg" alt=""><div class="cap">不同陽光產生的陰影不同</div></div>
+    <div class="mitem"><img src="media/m_light_angle.jpg" alt=""><div class="cap">不同光線的角度</div></div>
+    <div class="mitem"><img src="media/m_light_bright.jpg" alt=""><div class="cap">不同光源的亮度</div></div>
+    <div class="mitem"><img src="media/m_target_between.jpg" alt=""><div class="cap">將目標放在光源與眼睛之間</div></div>
+  </div>
+</section>
+
+<!-- 19c 實拍：觀察視角與製造陰影（影片） -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍 · 影片</div>
+  <h2>實拍：觀察視角與製造陰影</h2>
+  <div class="mgrid">
+    <div class="mitem"><video src="media/v_dir.mp4" poster="media/p_v_dir.jpg" controls preload="none" playsinline></video><div class="cap">不同方向的視角</div></div>
+    <div class="mitem"><video src="media/v_height.mp4" poster="media/p_v_height.jpg" controls preload="none" playsinline></video><div class="cap">不同高度的視角</div></div>
+    <div class="mitem"><video src="media/v_light.mp4" poster="media/p_v_light.jpg" controls preload="none" playsinline></video><div class="cap">不同光源的視角</div></div>
+    <div class="mitem"><video src="media/v_shadow_light.mp4" poster="media/p_v_shadow_light.jpg" controls preload="none" playsinline></video><div class="cap">做陰影再加上光源</div></div>
+    <div class="mitem"><video src="media/v_mirror.mp4" poster="media/p_v_mirror.jpg" controls preload="none" playsinline></video><div class="cap">用鏡子產生陰影</div></div>
+  </div>
 </section>
 
 <!-- 20 8視覺要素 -->
@@ -404,6 +448,15 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   </table>
 </section>
 
+<!-- 21b 實拍：石頭踩踏推擠判方向 -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍</div>
+  <h2>實拍：石頭踩踏的推擠現象</h2>
+  <div class="mgrid">
+    <div class="mitem"><img src="media/m_rock_push.jpg" alt=""><div class="cap">踩踏後泥土出現空隙的一側＝離開方向；被推擠隆起側＝來向</div></div>
+  </div>
+</section>
+
 <!-- 22 上下坡拉植物 ★ -->
 <section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>★ 植被傾倒與「上下陡坡拉植物」</h2>
@@ -428,6 +481,30 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   </div>
 </section>
 
+<!-- 23b 實拍：植被擾動（原貌 vs 被擾動） -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍</div>
+  <h2>實拍：植被擾動判讀</h2>
+  <div class="mgrid">
+    <div class="mitem"><img src="media/m_veg_undist.jpg" alt=""><div class="cap">植被沒有被擾動</div></div>
+    <div class="mitem"><img src="media/m_veg_dist.jpg" alt=""><div class="cap">植被被擾動</div></div>
+    <div class="mitem"><img src="media/m_leaf1.jpg" alt=""><div class="cap">葉子踩踏後 1</div></div>
+    <div class="mitem"><img src="media/m_leaf2.jpg" alt=""><div class="cap">葉子踩踏後 2</div></div>
+    <div class="mitem"><img src="media/m_leafline1.jpg" alt=""><div class="cap">踩踏痕跡呈直線 1</div></div>
+    <div class="mitem"><img src="media/m_leafline2.jpg" alt=""><div class="cap">踩踏痕跡呈直線 2</div></div>
+  </div>
+</section>
+
+<!-- 23c 實拍：第一視角植被擾動（影片） -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍 · 影片</div>
+  <h2>實拍：第一視角植被擾動</h2>
+  <div class="mgrid">
+    <div class="mitem"><video src="media/v_fpv_orig.mp4" poster="media/p_v_fpv_orig.jpg" controls preload="none" playsinline></video><div class="cap">第一視角 · 植被原貌</div></div>
+    <div class="mitem"><video src="media/v_fpv_dist.mp4" poster="media/p_v_fpv_dist.jpg" controls preload="none" playsinline></video><div class="cap">第一視角 · 植被被擾動</div></div>
+  </div>
+</section>
+
 <!-- 24 痕跡新舊 -->
 <section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>痕跡新舊與老化判讀</h2>
@@ -440,6 +517,18 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   </ul>
 </section>
 
+<!-- 24b 實拍：時間序、蜘蛛網、露水 -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍</div>
+  <h2>實拍：葉片時間序 · 蜘蛛網 · 露水</h2>
+  <div class="mgrid">
+    <div class="mitem"><img src="media/m_leaf_timeseq.jpg" alt=""><div class="cap">課程中葉片的時間序（老化梯度）</div></div>
+    <div class="mitem"><video src="media/v_web.mp4" poster="media/p_v_web.jpg" controls preload="none" playsinline></video><div class="cap">蜘蛛網（新黃舊白判時間）</div></div>
+    <div class="mitem"><video src="media/v_dew_undist.mp4" poster="media/p_v_dew_undist.jpg" controls preload="none" playsinline></video><div class="cap">植被有露水、沒有被擾動過</div></div>
+    <div class="mitem"><video src="media/v_dew_dist.mp4" poster="media/p_v_dew_dist.jpg" controls preload="none" playsinline></video><div class="cap">植被露水及葉面被擾動過</div></div>
+  </div>
+</section>
+
 <!-- 25 紀錄保存 -->
 <section data-background-image="images/mod3.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>紀錄與保存</h2>
@@ -447,6 +536,17 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
     <div class="card"><div class="ct">追蹤棒</div><div class="cd">登山杖/木棍綁橡皮筋做固定尺寸量測；量腳跟到腳跟找出另一腳</div></div>
     <div class="card o"><div class="ct">手繪腳印小卡</div><div class="cd">畫得越詳細越好：花紋、鞋長、掌寬、跟寬、最大特徵。手繪比拍照細膩</div></div>
     <div class="card g"><div class="ct">足跡保存</div><div class="cd">鬆軟地面腳印可用髮膠固定（勿正對噴）；與足跡垂直方向接近</div></div>
+  </div>
+</section>
+
+<!-- 25b 實拍：追蹤棒 -->
+<section data-background-color="#0b0f16">
+  <div class="mtag">教學實拍</div>
+  <h2>實拍：追蹤棒</h2>
+  <div class="mgrid">
+    <div class="mitem"><img src="media/m_stick1.jpg" alt=""><div class="cap">追蹤棒 1</div></div>
+    <div class="mitem"><img src="media/m_stick2.jpg" alt=""><div class="cap">追蹤棒 2</div></div>
+    <div class="mitem"><img src="media/m_stick3.jpg" alt=""><div class="cap">追蹤棒 3</div></div>
   </div>
 </section>
 
