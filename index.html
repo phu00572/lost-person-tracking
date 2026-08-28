@@ -74,9 +74,9 @@ body.mobile .jgrid{ grid-template-columns:1fr; }
 .steps{ counter-reset:st; }
 
 /* 定義列 */
-.defs{ display:flex; flex-direction:column; gap:9px; margin-top:0.5em; }
-.def{ display:flex; gap:14px; align-items:baseline; background:rgba(255,255,255,0.04); border-left:3px solid var(--accent2); border-radius:8px; padding:9px 13px; }
-.def .dk{ flex:0 0 205px; font-weight:800; color:var(--accent2); font-size:0.54em; white-space:nowrap; }
+.defs{ display:flex; flex-direction:column; gap:6px; margin-top:0.5em; }
+.def{ display:flex; gap:14px; align-items:baseline; background:rgba(255,255,255,0.04); border-left:3px solid var(--accent2); border-radius:8px; padding:6px 13px; }
+.def .dk{ flex:0 0 auto; font-weight:800; color:var(--accent2); font-size:0.54em; white-space:nowrap; margin-right:14px; }
 .def .dv{ flex:1; font-size:0.46em; color:#c3ced9; line-height:1.5; }
 
 /* 重點框 */
@@ -518,9 +518,9 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 <!-- 31 尋獲距離 chart -->
 <section id="slide-dist" data-background-image="images/mod4.jpg" data-background-opacity="0.13" data-background-size="cover">
   <div class="qhead">📊 各族群「50% 尋獲距離」比較</div>
-  <p class="small" style="margin:0 0 4px;">滑鼠移到長條看數值（單位：公里）</p>
-  <div style="max-width:940px; height:300px; margin:0 auto 10px;"><canvas id="dist-canvas"></canvas></div>
-  <div class="note g"><b>台灣在地重點：</b>約 <span class="hl">80% 的山域迷途案件在距 IPP 一公里內</span>尋獲——與「LKP 1 公里起手式」呼應，可作初期熱區第一圈。</div>
+  <div class="note g" style="margin:0 0 8px;"><b>台灣在地重點：</b>約 <span class="hl">80% 的山域迷途案件在距 IPP 一公里內</span>尋獲——與「LKP 1 公里起手式」呼應，可作初期熱區第一圈。</div>
+  <p class="small" style="margin:0 0 2px;">滑鼠移到長條看數值（單位：公里）</p>
+  <div style="max-width:960px; height:300px; margin:0 auto;"><canvas id="dist-canvas"></canvas></div>
 </section>
 
 <!-- 32 搜索資料清單 -->
@@ -558,10 +558,10 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 <!-- 35 涵蓋密度 W→C→POD（合併，tab 切換） -->
 <section id="slide-pod" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
   <div class="qhead">📏 涵蓋密度：掃描寬度 → 覆蓋率 → POD</div>
-  <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:18px; align-items:start; margin-top:0.1em;">
-    <div>
+  <div style="display:grid; grid-template-columns:minmax(0,0.95fr) minmax(0,1.1fr); gap:20px; align-items:start; margin-top:0.1em;">
+    <div style="min-width:0;">
       <p class="small" style="margin:0 0 4px;">依 Koopman 隨機搜索理論：<b class="hl">POD = 1 − e^(−C)</b></p>
-      <div style="height:340px;"><canvas id="pod-canvas"></canvas></div>
+      <div style="height:300px; min-width:0;"><canvas id="pod-canvas"></canvas></div>
     </div>
     <div>
       <div class="tabs" style="margin-top:0;">
@@ -571,10 +571,10 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
       </div>
       <div class="tabpanel active" id="tab-cov0">
         <div class="defs" style="margin-top:0;">
-          <div class="def"><div class="dk">W 掃描寬度</div><div class="dv">Effective Sweep Width：搜索員平均能看清目標的橫向寬度（隨植被劇烈變化）</div></div>
+          <div class="def"><div class="dk">W 掃描寬度</div><div class="dv">Effective Sweep Width：搜索員能看清目標的橫向寬度</div></div>
           <div class="def"><div class="dk">S 搜索者間距</div><div class="dv">相鄰兩名搜索員之間的橫向距離</div></div>
           <div class="def" style="border-left-color:var(--accent)"><div class="dk" style="color:var(--accent)">C 覆蓋率</div><div class="dv"><b>C ＝ W ÷ S</b>；間距越密、C 越大、POD 越高</div></div>
-          <div class="def" style="border-left-color:var(--success)"><div class="dk" style="color:var(--success)">CS 臨界間距</div><div class="dv">Critical Separation：間距抓在「剛好還偵測得到線索」的距離；<b>W 可以等於 CS</b></div></div>
+          <div class="def" style="border-left-color:var(--success)"><div class="dk" style="color:var(--success)">CS 臨界間距</div><div class="dv">間距抓在「剛好還偵測得到線索」的距離；<b>W 可等於 CS</b></div></div>
         </div>
       </div>
       <div class="tabpanel" id="tab-cov1">
