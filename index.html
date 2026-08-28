@@ -75,6 +75,11 @@ body.mobile .jgrid{ grid-template-columns:1fr; }
 body.mobile .mgrid{ gap:16px; }
 body.mobile .mitem img, body.mobile .mitem video{ max-height:320px; max-width:88vw; }
 body.mobile .mitem .cap{ font-size:16px; max-width:90vw; }
+.mitem img{ cursor:zoom-in; }
+#lightbox{ position:fixed; inset:0; background:rgba(0,0,0,0.92); display:none; align-items:center; justify-content:center; z-index:2000; cursor:zoom-out; }
+#lightbox.show{ display:flex; }
+#lightbox img{ max-width:94vw; max-height:94vh; border-radius:8px; box-shadow:0 10px 50px rgba(0,0,0,0.6); }
+#lightbox .lbhint{ position:fixed; top:16px; right:20px; color:#9fb0c0; font-size:14px; }
 
 /* 步驟清單 */
 .steps{ list-style:none; padding:0; margin:0.5em 0 0; }
@@ -816,6 +821,8 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   </div>
 </aside>
 
+<div id="lightbox"><span class="lbhint">點任意處關閉 · Esc</span><img alt=""></div>
+
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
 <script>
 function deckSize(){
@@ -857,6 +864,14 @@ Reveal.on('slidechanged', e=>{ if(e.currentSlide) e.currentSlide.scrollTop=0;
   if(id==='slide-dist') setTimeout(()=>window.initDist&&window.initDist(),150);
   if(id==='slide-pod') setTimeout(()=>window.initPod&&window.initPod(),150);
 });
+
+/* === 圖片雙擊放大燈箱 === */
+const _lb=document.getElementById('lightbox'), _lbi=_lb?_lb.querySelector('img'):null;
+document.querySelectorAll('.mitem img').forEach(im=>{
+  im.addEventListener('dblclick', e=>{ e.preventDefault(); e.stopPropagation(); if(!_lb)return; _lbi.src=im.currentSrc||im.src; _lb.classList.add('show'); });
+});
+_lb && _lb.addEventListener('click', ()=>{ _lb.classList.remove('show'); _lbi.src=''; });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'&&_lb&&_lb.classList.contains('show')){ _lb.classList.remove('show'); _lbi.src=''; } });
 
 /* === 分類 tab 切換（各族群頁） === */
 document.querySelectorAll('.tabs .tab').forEach(t=>t.addEventListener('click',()=>{
