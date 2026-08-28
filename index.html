@@ -549,10 +549,10 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 <!-- 35 涵蓋密度 W→C→POD（合併，tab 切換） -->
 <section id="slide-pod" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
   <div class="qhead">📏 涵蓋密度：掃描寬度 → 覆蓋率 → POD</div>
-  <div style="display:grid; grid-template-columns:1.02fr 1fr; gap:18px; align-items:start; margin-top:0.1em;">
-    <div>
+  <div style="display:grid; grid-template-columns:1.35fr 1fr; gap:18px; align-items:stretch; margin-top:0.1em;">
+    <div style="display:flex; flex-direction:column;">
       <p class="small" style="margin:0 0 4px;">依 Koopman 隨機搜索理論：<b class="hl">POD = 1 − e^(−C)</b></p>
-      <div style="height:300px;"><canvas id="pod-canvas"></canvas></div>
+      <div style="flex:1; min-height:390px;"><canvas id="pod-canvas"></canvas></div>
     </div>
     <div>
       <div class="tabs" style="margin-top:0;">
@@ -636,29 +636,26 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 
 <!-- 38 撲克牌暖身 -->
 <section data-background-image="images/mod6.jpg" data-background-opacity="0.14" data-background-size="cover">
-  <h2>暖身：有效掃描寬度 × 找撲克牌</h2>
+  <h2>暖身：找撲克牌（練觀察敏銳度）</h2>
   <ul class="steps" style="counter-reset:st;">
-    <li><b>布置</b>：草地/落葉地面隨機散佈數十張撲克牌（部分明顯、部分半掩）</li>
-    <li><b>執行</b>：搜救員列隊、等間距、同速通過，只找牌不撿；記錄各人「剛好還看得到」的最遠橫向距離</li>
-    <li><b>量測</b>：各人最遠可見距離取區間值 ＝ 這個地形的有效掃描寬度 W</li>
-    <li><b>延伸</b>：換不同間距再走、數找到幾張，體會「間距越密 → C 越高 → 找到越多」</li>
+    <li><b>布置</b>：草地／落葉／樹林中隨機散佈數十張撲克牌（部分明顯、部分半掩、不同高度與位置）</li>
+    <li><b>執行</b>：搜救員進入找撲克牌，只找牌不撿；記錄各人「剛好還看得到」的最遠橫向距離及數量</li>
+    <li><b>回饋</b>：觀察的方式、角度、高度與方向，都會決定搜尋的成效</li>
+    <li><b>更換</b>：換不同物理跡象再執行——會發現 CS 變高？找到的數量變多？</li>
   </ul>
-  <div class="note">撲克牌大小固定、顏色鮮明，適合當「標準線索」——先發現「站太開會漏牌」，自然帶出覆蓋率與 POD。</div>
+  <div class="note">撲克牌大小固定、顏色鮮明，適合當「標準線索」；後續山林實作會換成真實跡象，藉由反覆練習提高自己的 POD。</div>
 </section>
 
 <!-- 39 20m追蹤 -->
 <section data-background-image="images/mod6.jpg" data-background-opacity="0.14" data-background-size="cover">
-  <h2>跡象追蹤演練（短距離 20 公尺）</h2>
-  <div class="cards c2">
-    <div class="card"><div class="ct">流程</div><div class="cd">先行者先以約 20 公尺短距離製造各種跡象 → 回到隊伍 → 全隊一起從起點沿線追蹤</div></div>
-    <div class="card o"><div class="ct">先行者製造</div><div class="cd">腳印組（含倒退/小跑/背負）、壓草瘀傷、折枝、上下坡拉植物、石上鞋泥、露水痕、中途錯誤折返</div></div>
-  </div>
-  <ul class="steps" style="counter-reset:st; margin-top:0.5em;">
-    <li>保存並確認起點、登記時間；伏地側面＋光影確認第一組足跡方向與量測</li>
-    <li>二分法排除方向：找到下一跡象＝確立蹤跡，找不到＝沒往那走；逐一串成蹤跡、標記拍照</li>
-    <li>陡坡交叉驗證、折返點用壓疊/瘀傷新舊判最新方向</li>
+  <h2>跡象追蹤演練（短距離 50 公尺）</h2>
+  <div class="note o" style="margin-top:0.2em;"><b>先行者製造：</b>腳印、壓草瘀傷、植被不自然擾動、折枝、上下坡拉植物、石上鞋泥、破壞蜘蛛網</div>
+  <ul class="steps" style="counter-reset:st; margin-top:0.4em;">
+    <li>確認 IPP 點、登記時間地點與跡象種類；追蹤並確認第一個跡象，判讀方向、量測與線索定向</li>
+    <li>二分法排除方向：找到下一跡象＝確立蹤跡，逐一串成蹤跡、標記拍照；找不到＝沒往那走</li>
+    <li>交叉驗證；折返點用壓疊／瘀傷新舊判最新方向</li>
   </ul>
-  <div class="note g" style="font-size:0.48em;"><b>為何先行者做完就歸隊：</b>追蹤全靠「讀跡象」而非跟人；講評時先行者當場對照、說明每個跡象。</div>
+  <div class="note g"><b>流程：</b>先行者製造完跡象即回到隊伍，全隊一起從起點沿線追蹤——追蹤全靠「讀跡象」而非跟人；講評時先行者當場對照、說明每個跡象。</div>
 </section>
 
 <!-- 40 收束 -->
