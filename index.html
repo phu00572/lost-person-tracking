@@ -76,7 +76,7 @@ body.mobile .jgrid{ grid-template-columns:1fr; }
 /* 定義列 */
 .defs{ display:flex; flex-direction:column; gap:9px; margin-top:0.5em; }
 .def{ display:flex; gap:14px; align-items:baseline; background:rgba(255,255,255,0.04); border-left:3px solid var(--accent2); border-radius:8px; padding:9px 13px; }
-.def .dk{ flex:0 0 150px; font-weight:800; color:var(--accent2); font-size:0.54em; }
+.def .dk{ flex:0 0 205px; font-weight:800; color:var(--accent2); font-size:0.54em; white-space:nowrap; }
 .def .dv{ flex:1; font-size:0.46em; color:#c3ced9; line-height:1.5; }
 
 /* 重點框 */
@@ -87,7 +87,7 @@ body.mobile .jgrid{ grid-template-columns:1fr; }
 .quote{ background:rgba(255,255,255,0.05); border-left:4px solid var(--accent); border-radius:8px; padding:16px 20px; font-size:0.62em; color:#e2e8ee; font-style:italic; line-height:1.7; margin-top:0.4em; }
 
 /* 表格 */
-.reveal table{ font-size:0.44em; width:100%; border-collapse:collapse; margin-top:0.5em; }
+.reveal table{ font-size:0.48em; width:100%; border-collapse:collapse; margin-top:0.5em; }
 .reveal table th{ background:#1f3350; color:#fff; padding:7px 9px; text-align:left; font-weight:700; }
 .reveal table td{ padding:6px 9px; border-bottom:1px solid rgba(255,255,255,0.09); color:#c3ced9; vertical-align:top; }
 .reveal table tr:nth-child(even) td{ background:rgba(255,255,255,0.03); }
@@ -204,8 +204,8 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   <h2>心法：追蹤人人可學</h2>
   <div class="quote">「一個故事已被印在環境中，我們必須閱讀並理解它。」</div>
   <p class="lead" style="margin-top:0.6em;">關鍵不是天賦，而是 <span class="hl">學習意願 · 耐心 · 決心 · 持續練習</span>。</p>
-  <div class="note o">時間花在哪裡，成就就在哪裡。追蹤是一門「練出來」的技藝。</div>
-  <div class="note g"><b>為什麼要練？</b>受過訓練者尋獲跡象的 POD 約 <b>70–80%</b>，未受訓者僅約 <b>50%</b>——訓練直接換成更高的找到率。</div>
+  <div class="note g"><b>白話文：</b>時間花在哪裡，成就就在哪裡。追蹤是一門「練出來」的技藝。</div>
+  <div class="note g"><b>目標：</b>為什麼要練？受過訓練者尋獲跡象的 POD 約 <b>70–80%</b>，未受訓者僅約 <b>50%</b>——訓練直接換成更高的找到率。</div>
 </section>
 
 <!-- 7 觀察起點 -->
@@ -518,8 +518,8 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 <!-- 31 尋獲距離 chart -->
 <section id="slide-dist" data-background-image="images/mod4.jpg" data-background-opacity="0.13" data-background-size="cover">
   <div class="qhead">📊 各族群「50% 尋獲距離」比較</div>
-  <p class="small" style="margin:0 0 6px;">滑鼠移到長條看數值（單位：公里）</p>
-  <div style="max-width:900px; height:360px; margin:0 auto;"><canvas id="dist-canvas"></canvas></div>
+  <p class="small" style="margin:0 0 4px;">滑鼠移到長條看數值（單位：公里）</p>
+  <div style="max-width:940px; height:300px; margin:0 auto 10px;"><canvas id="dist-canvas"></canvas></div>
   <div class="note g"><b>台灣在地重點：</b>約 <span class="hl">80% 的山域迷途案件在距 IPP 一公里內</span>尋獲——與「LKP 1 公里起手式」呼應，可作初期熱區第一圈。</div>
 </section>
 
@@ -558,10 +558,10 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
 <!-- 35 涵蓋密度 W→C→POD（合併，tab 切換） -->
 <section id="slide-pod" data-background-image="images/mod5.jpg" data-background-opacity="0.13" data-background-size="cover">
   <div class="qhead">📏 涵蓋密度：掃描寬度 → 覆蓋率 → POD</div>
-  <div style="display:grid; grid-template-columns:1.35fr 1fr; gap:18px; align-items:stretch; margin-top:0.1em;">
-    <div style="display:flex; flex-direction:column;">
+  <div style="display:grid; grid-template-columns:1.3fr 1fr; gap:18px; align-items:start; margin-top:0.1em;">
+    <div>
       <p class="small" style="margin:0 0 4px;">依 Koopman 隨機搜索理論：<b class="hl">POD = 1 − e^(−C)</b></p>
-      <div style="flex:1; min-height:390px;"><canvas id="pod-canvas"></canvas></div>
+      <div style="height:340px;"><canvas id="pod-canvas"></canvas></div>
     </div>
     <div>
       <div class="tabs" style="margin-top:0;">
@@ -643,6 +643,30 @@ body.mobile #qa-handle > span:nth-child(2), body.mobile #qa-handle .qh-dot{ disp
   <div class="chap"><div class="cn">MODULE 06</div><h1>實際練習</h1><div class="cs">先練「看得到」，再練「看得懂」→ 室內後進行戶外</div></div>
 </section>
 
+<!-- 37b 跡象回顧 文字雲 -->
+<section id="slide-signs" data-background-image="images/interact.jpg" data-background-opacity="0.16" data-background-size="cover">
+  <h2 style="margin-bottom:0.3em;">🔎 回顧：這堂課學到的「跡象」有哪些？</h2>
+  <p class="small" style="margin:0 0 10px;">下場實作前先一起把跡象列出來——輸入一種跡象（例：腳印、壓草瘀傷、折枝、露水痕、蜘蛛網…）</p>
+  <div class="wc-wrap" style="display:grid; grid-template-columns:250px 1fr; gap:14px; height:400px;">
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div class="wc-form" style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px;">
+        <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px;">輸入一種跡象</div>
+        <input id="sc-input" class="ui-input" type="text" placeholder="輸入跡象…" maxlength="20" />
+        <button id="sc-btn" class="ui-btn" style="width:100%; margin-top:8px;">送出 ↵</button>
+      </div>
+      <div style="background:rgba(255,255,255,0.06); border-radius:10px; padding:14px; flex:1; overflow:hidden; display:flex; flex-direction:column;">
+        <div style="font-size:0.38em; color:var(--accent2); font-weight:700; margin-bottom:8px;">大家列出的跡象 <span class="live-badge">LIVE</span></div>
+        <div id="sc-list" style="font-size:0.34em; overflow-y:auto; flex:1; color:#ccc;"></div>
+        <div style="margin-top:8px; font-size:0.32em; color:#666; border-top:1px solid rgba(255,255,255,0.08); padding-top:6px;">總提交：<span id="sc-total" style="color:var(--accent); font-weight:700;">0</span>　不同跡象：<span id="sc-unique" style="color:var(--accent2); font-weight:700;">0</span></div>
+      </div>
+    </div>
+    <div style="background:rgba(255,255,255,0.04); border-radius:12px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.07);">
+      <canvas id="sc-canvas" style="width:100%; height:100%; display:block;"></canvas>
+      <div id="sc-empty" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#444; font-size:0.42em; text-align:center; pointer-events:none; line-height:2;">輸入第一種跡象<br>文字雲就會出現 ✨</div>
+    </div>
+  </div>
+</section>
+
 <!-- 38 撲克牌暖身 -->
 <section data-background-image="images/mod6.jpg" data-background-opacity="0.14" data-background-size="cover">
   <h2>暖身：找撲克牌（練觀察敏銳度）</h2>
@@ -710,6 +734,7 @@ function applyResponsive(){
   Reveal.layout();
   setTimeout(()=>{ const id=Reveal.getCurrentSlide&&Reveal.getCurrentSlide()?.id;
     if(id==='slide-wordcloud') window.drawWordCloud&&window.drawWordCloud();
+    if(id==='slide-signs') window.drawSignsCloud&&window.drawSignsCloud();
     if(id==='slide-dist') window.initDist&&window.initDist();
     if(id==='slide-pod') window.initPod&&window.initPod(); }, 250);
 }
@@ -728,6 +753,7 @@ window.addEventListener('orientationchange', ()=>setTimeout(applyResponsive,250)
 Reveal.on('slidechanged', e=>{ if(e.currentSlide) e.currentSlide.scrollTop=0;
   const id=e.currentSlide?.id;
   if(id==='slide-wordcloud') setTimeout(()=>window.drawWordCloud&&window.drawWordCloud(),150);
+  if(id==='slide-signs') setTimeout(()=>window.drawSignsCloud&&window.drawSignsCloud(),150);
   if(id==='slide-dist') setTimeout(()=>window.initDist&&window.initDist(),150);
   if(id==='slide-pod') setTimeout(()=>window.initPod&&window.initPod(),150);
 });
@@ -815,6 +841,36 @@ window.drawWordCloud=function(){
     color:()=>COLORS[Math.floor(Math.random()*COLORS.length)], backgroundColor:'transparent', rotateRatio:0.3, shuffle:true });
 };
 
+/* --- 文字雲2：跡象回顧 --- */
+const signsRef = collection(fdb, SLUG + '_signs');
+let scData = [];
+window.scSubmit = async function(){
+  const input=document.getElementById('sc-input'); const word=input.value.trim(); if(!word)return;
+  const btn=document.getElementById('sc-btn'); btn.disabled=true;
+  try{ await addDoc(signsRef,{ word, created_at:serverTimestamp() }); input.value=''; }catch(e){ console.error(e); }finally{ btn.disabled=false; }
+};
+document.getElementById('sc-input')?.addEventListener('keypress', e=>{ if(e.key==='Enter') window.scSubmit(); });
+document.getElementById('sc-btn')?.addEventListener('click', window.scSubmit);
+onSnapshot(query(signsRef, orderBy('created_at','asc')), snap=>{
+  const words=[]; snap.forEach(d=>words.push(d.data().word));
+  const counts={}; words.forEach(w=>counts[w]=(counts[w]||0)+1);
+  scData=Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('sc-total').textContent=words.length;
+  document.getElementById('sc-unique').textContent=scData.length;
+  document.getElementById('sc-list').innerHTML=scData.slice(0,14).map(([w,c])=>`<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.06);"><span>${w}</span><span style="color:var(--accent);font-weight:700;">${c}</span></div>`).join('')||'<div style="color:#555;padding:8px 0;">尚無資料</div>';
+  const empty=document.getElementById('sc-empty'); if(empty) empty.style.display=scData.length>0?'none':'';
+  window.drawSignsCloud();
+});
+window.drawSignsCloud=function(){
+  const canvas=document.getElementById('sc-canvas'); if(!canvas||typeof WordCloud==='undefined')return;
+  const rect=canvas.getBoundingClientRect(); if(rect.width<10||rect.height<10)return;
+  canvas.width=rect.width; canvas.height=rect.height; if(scData.length===0)return;
+  const maxCount=scData[0][1];
+  WordCloud(canvas,{ list:scData.map(([w,c])=>[w,Math.max(18,Math.round((c/maxCount)*70))]),
+    gridSize:6, weightFactor:1, fontFamily:'"Microsoft JhengHei","Noto Sans TC",sans-serif',
+    color:()=>COLORS[Math.floor(Math.random()*COLORS.length)], backgroundColor:'transparent', rotateRatio:0.3, shuffle:true });
+};
+
 /* --- 投票 --- */
 const POLL_OPTIONS=[
   { id:'a', label:'往下坡走、找水源' },
@@ -892,7 +948,7 @@ document.querySelectorAll('[data-prevent-swipe]').forEach(el=>{
 /* --- 老師課後重置：網址加 ?reset=1 --- */
 window.resetLPT=async function(silent){
   let total=0;
-  for(const c of [SLUG+'_wordcloud', SLUG+'_qa']){
+  for(const c of [SLUG+'_wordcloud', SLUG+'_signs', SLUG+'_qa']){
     const snap=await getDocs(collection(fdb,c));
     for(const d of snap.docs){ await deleteDoc(d.ref); total++; }
   }
